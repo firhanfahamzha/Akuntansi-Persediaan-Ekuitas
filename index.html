@@ -3,917 +3,1018 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Master Class Interaktif Akuntansi: Persediaan, Ekuitas & Pendapatan. Materi lengkap, simulator, kuis, dan sertifikat.">
+<meta name="description" content="Master Class Interaktif Akuntansi: Persediaan, Ekuitas & Pendapatan. Belajar sambil main, kumpulkan XP, raih sertifikat!">
 <meta name="theme-color" content="#10b981">
 <meta property="og:title" content="Persediaan & Ekuitas: Master Class Interaktif 🏆">
-<meta property="og:description" content="Belajar Akuntansi Persediaan & Ekuitas dengan cara engaging! Simulator, kuis, chart progress, dan sertifikat.">
+<meta property="og:description" content="Belajar Akuntansi dengan cara engaging! XP, badge, simulator, kuis, sertifikat.">
 <meta property="og:type" content="website">
 <title>Persediaan & Ekuitas: Master Class Interaktif 🏆</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 <style>
-/* ============ 1. VARIABLES ============ */
+/* ====== VARIABLES ====== */
 :root{
   --primary:#10b981; --primary-dark:#059669; --primary-light:#34d399;
-  --accent:#06b6d4; --accent-2:#84cc16;
+  --accent:#06b6d4; --accent-2:#84cc16; --lime:#a3e635;
   --success:#10b981; --danger:#ef4444; --warning:#f59e0b; --purple:#8b5cf6;
-  --grad-light:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 45%,#cffafe 100%);
-  --grad-dark:linear-gradient(135deg,#064e3b 0%,#0f2027 50%,#083344 100%);
-  --glass-light:rgba(255,255,255,.68);
-  --glass-dark:rgba(15,23,42,.55);
-  --border-light:rgba(255,255,255,.85);
-  --border-dark:rgba(255,255,255,.10);
+  --grad-light:linear-gradient(135deg,#f0fdf4 0%,#d1fae5 50%,#cffafe 100%);
+  --grad-dark:linear-gradient(135deg,#022c22 0%,#0f2027 50%,#083344 100%);
+  --glass-light:rgba(255,255,255,.72);
+  --glass-dark:rgba(15,23,42,.6);
+  --border-light:rgba(255,255,255,.9);
+  --border-dark:rgba(255,255,255,.1);
   --text-light:#064e3b; --text-dark:#f0fdf4;
   --muted-light:#475569; --muted-dark:#cbd5e1;
-  --radius:16px; --radius-sm:10px; --radius-lg:24px;
+  --radius:16px; --radius-sm:10px; --radius-lg:22px;
   --shadow:0 8px 32px rgba(16,185,129,.15);
-  --shadow-lg:0 20px 60px rgba(16,185,129,.28);
+  --shadow-lg:0 20px 60px rgba(16,185,129,.3);
   --transition:all .35s cubic-bezier(.4,0,.2,1);
-  --font:'Plus Jakarta Sans','Inter',system-ui,-apple-system,sans-serif;
+  --font:'Plus Jakarta Sans','Inter',system-ui,sans-serif;
 }
-/* ============ 2. RESET ============ */
+/* ====== RESET ====== */
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{
-  margin:0;font-family:var(--font);background:var(--grad-light);background-attachment:fixed;
-  color:var(--text-light);line-height:1.65;transition:var(--transition);
-  overflow-x:hidden;min-height:100vh;
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;font-family:var(--font);background:var(--grad-light);background-attachment:fixed;
+  color:var(--text-light);line-height:1.65;transition:var(--transition);overflow-x:hidden;
   --glass:var(--glass-light);--border:var(--border-light);
-  --text-color:var(--text-light);--muted:var(--muted-light);
-}
+  --text-color:var(--text-light);--muted:var(--muted-light)}
 body.dark-mode{background:var(--grad-dark);color:var(--text-dark);
   --glass:var(--glass-dark);--border:var(--border-dark);
-  --text-color:var(--text-dark);--muted:var(--muted-dark);
-}
-body.presentation-mode #sidebar,body.presentation-mode .mobile-header,
-body.presentation-mode #topbar,body.presentation-mode .floating-controls{display:none!important}
-body.presentation-mode #main-content{margin-left:0!important;padding:60px 40px!important;max-width:100%!important}
-/* ============ 3. LOADER ============ */
+  --text-color:var(--text-dark);--muted:var(--muted-dark)}
+body.presentation-mode #topbar,body.presentation-mode .floating-controls,
+body.presentation-mode #xp-widget{display:none!important}
+/* ====== LOADER ====== */
 #loader{position:fixed;inset:0;background:var(--grad-light);z-index:99999;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   transition:opacity .6s,visibility .6s}
 body.dark-mode #loader{background:var(--grad-dark)}
-#loader.hide{opacity:0;visibility:hidden}
-.loader-logo{font-size:4.5rem;margin-bottom:20px;animation:bounce 1.2s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
-.loader-bar{width:240px;height:6px;background:rgba(16,185,129,.2);border-radius:10px;overflow:hidden;margin-top:14px}
-.loader-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:10px;transition:width .3s}
-.loader-text{font-weight:600;color:var(--primary);margin-top:16px;letter-spacing:.5px}
-/* ============ 4. SCROLL PROGRESS ============ */
+#loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.loader-logo{font-size:5rem;animation:bounce 1.2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.loader-bar{width:260px;height:8px;background:rgba(16,185,129,.2);border-radius:10px;overflow:hidden;margin-top:22px}
+.loader-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--accent),var(--accent-2));
+  border-radius:10px;transition:width .3s}
+.loader-text{font-weight:700;color:var(--primary);margin-top:18px;letter-spacing:1px;font-size:.95rem;text-transform:uppercase}
+/* ====== SCROLL PROGRESS ====== */
 #scroll-progress{position:fixed;top:0;left:0;height:4px;width:0%;
   background:linear-gradient(90deg,var(--primary),var(--accent),var(--accent-2));
   z-index:9998;transition:width .1s;box-shadow:0 0 12px rgba(16,185,129,.6)}
-/* ============ 5. CURSOR GLOW ============ */
+/* ====== CURSOR ====== */
 .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
-  transform:translate(-50%,-50%);transition:transform .08s;mix-blend-mode:screen}
+  transform:translate(-50%,-50%);mix-blend-mode:screen}
 .cursor-dot{width:8px;height:8px;background:var(--primary);border-radius:50%}
-.cursor-ring{width:42px;height:42px;border:2px solid var(--primary);border-radius:50%;
-  transition:transform .18s,width .2s,height .2s;opacity:.6}
+.cursor-ring{width:44px;height:44px;border:2px solid var(--primary);border-radius:50%;
+  transition:width .2s,height .2s;opacity:.55}
 @media (max-width:900px){.cursor-dot,.cursor-ring{display:none}}
-/* ============ 6. CANVAS BG ============ */
+/* ====== CANVAS ====== */
 #particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;
-  pointer-events:none;z-index:0;opacity:.7}
+  pointer-events:none;z-index:0;opacity:.6}
 #confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;
   pointer-events:none;z-index:9997}
-/* ============ 7. LAYOUT ============ */
-#app-container{display:flex;min-height:100vh;position:relative;z-index:1}
-#sidebar{width:280px;position:fixed;top:0;left:0;height:100vh;
-  background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border-right:1px solid var(--border);padding:26px 18px;overflow-y:auto;z-index:100;
+/* ====== TOPBAR NAV (HORIZONTAL) ====== */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;
+  background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);box-shadow:0 4px 24px rgba(16,185,129,.08);
   transition:var(--transition)}
-#sidebar::-webkit-scrollbar{width:6px}
-#sidebar::-webkit-scrollbar-thumb{background:rgba(16,185,129,.3);border-radius:10px}
-.sidebar-logo{display:flex;align-items:center;gap:10px;margin-bottom:26px;padding:0 8px}
-.sidebar-logo-icon{font-size:2rem}
-.sidebar-logo-text{font-weight:800;font-size:1.05rem;line-height:1.2;
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.nav-item{display:flex;align-items:center;gap:10px;padding:11px 14px;margin-bottom:6px;
-  text-decoration:none;color:var(--muted);border-radius:var(--radius-sm);font-weight:600;
-  font-size:.92rem;transition:var(--transition);border:1px solid transparent;cursor:pointer}
-.nav-item:hover,.nav-item.active{background:rgba(16,185,129,.12);color:var(--primary);
-  border-color:rgba(16,185,129,.3);transform:translateX(5px)}
-#main-content{margin-left:280px;flex:1;padding:40px 44px 80px;max-width:1080px;box-sizing:border-box}
-/* ============ 8. TOPBAR ============ */
-#topbar{position:fixed;top:14px;right:20px;display:flex;gap:10px;z-index:200;align-items:center}
-.topbar-btn{width:44px;height:44px;border-radius:50%;background:var(--glass);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1px solid var(--border);cursor:pointer;font-size:1.15rem;
+.topbar-inner{max-width:1400px;margin:0 auto;padding:10px 20px;
+  display:flex;align-items:center;gap:14px}
+.topbar-brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1rem;
+  text-decoration:none;flex-shrink:0;cursor:pointer}
+.topbar-brand-icon{font-size:1.6rem}
+.topbar-brand-text{background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.1;font-size:.95rem}
+/* XP widget */
+#xp-widget{display:flex;align-items:center;gap:10px;flex-shrink:0;
+  padding:5px 14px;background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(6,182,212,.15));
+  border:1px solid rgba(16,185,129,.3);border-radius:50px}
+.xp-level{font-size:.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.xp-bar-wrap{width:70px;height:6px;background:rgba(16,185,129,.2);border-radius:10px;overflow:hidden}
+.xp-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--accent));
+  border-radius:10px;transition:width .6s ease}
+.xp-count{font-size:.72rem;font-weight:700;color:var(--muted);min-width:44px;text-align:right}
+/* nav pills */
+.nav-scroll{flex:1;overflow-x:auto;overflow-y:hidden;display:flex;gap:6px;
+  scrollbar-width:none;scroll-behavior:smooth;-ms-overflow-style:none}
+.nav-scroll::-webkit-scrollbar{display:none}
+.nav-pill{padding:8px 14px;border-radius:50px;border:1px solid transparent;
+  background:transparent;color:var(--muted);font-weight:600;font-size:.82rem;
+  white-space:nowrap;cursor:pointer;transition:var(--transition);
+  font-family:var(--font);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.nav-pill:hover{background:rgba(16,185,129,.1);color:var(--primary)}
+.nav-pill.active{background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;box-shadow:0 4px 12px rgba(16,185,129,.4)}
+.topbar-actions{display:flex;gap:6px;flex-shrink:0}
+.tb-btn{width:38px;height:38px;border-radius:50%;background:rgba(16,185,129,.08);
+  border:1px solid var(--border);cursor:pointer;font-size:1rem;
   display:flex;align-items:center;justify-content:center;color:var(--text-color);
-  transition:var(--transition);box-shadow:var(--shadow)}
-.topbar-btn:hover{background:var(--primary);color:#fff;transform:scale(1.1)}
-/* Mobile Header */
-.mobile-header{display:none;position:fixed;top:0;left:0;width:100%;
-  background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  padding:12px 18px;z-index:150;border-bottom:1px solid var(--border);
-  justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(0,0,0,.05)}
-.mobile-header h3{margin:0;font-size:1rem;color:var(--primary)}
-#menu-toggle{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-color)}
-/* ============ 9. TYPOGRAPHY ============ */
+  transition:var(--transition)}
+.tb-btn:hover{background:var(--primary);color:#fff;transform:scale(1.08)}
+@media (max-width:900px){
+  .topbar-brand-text{display:none}
+  #xp-widget{padding:4px 10px}
+  .xp-bar-wrap{width:44px}
+  .xp-count{display:none}
+  .topbar-inner{padding:8px 12px;gap:8px}
+  .tb-btn{width:34px;height:34px;font-size:.9rem}
+}
+/* ====== LAYOUT ====== */
+main{max-width:1080px;margin:0 auto;padding:100px 24px 60px;position:relative;z-index:1}
+@media (max-width:900px){main{padding:90px 14px 40px}}
+/* ====== TYPOGRAPHY ====== */
 h1,h2,h3,h4{margin-top:0;font-weight:800;line-height:1.25}
-h1{font-size:2.8rem;letter-spacing:-.02em}
+h1{font-size:3rem;letter-spacing:-.02em}
 h2{font-size:1.9rem;margin-bottom:1rem;position:relative;display:inline-block;padding-bottom:8px}
-h2::after{content:'';position:absolute;bottom:0;left:0;width:60%;height:4px;
+h2::after{content:'';position:absolute;bottom:0;left:0;width:70%;height:4px;
   background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:4px}
-h3{font-size:1.35rem;color:var(--primary);margin-top:1.6rem}
+h3{font-size:1.3rem;color:var(--primary);margin-top:1.5rem}
 h4{font-size:1.05rem}
 p{margin-bottom:1rem;font-size:1rem;color:var(--text-color)}
-a{color:var(--primary)}
-/* ============ 10. GLASS CARD ============ */
-.glass-card{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--border);border-radius:var(--radius-lg);padding:30px;
-  margin-bottom:26px;box-shadow:var(--shadow);transition:var(--transition)}
-.glass-card:hover{box-shadow:var(--shadow-lg)}
-/* ============ 11. BUTTONS ============ */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:13px 26px;border-radius:50px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;text-decoration:none;font-weight:700;font-size:1rem;border:none;cursor:pointer;
-  box-shadow:0 6px 18px rgba(16,185,129,.4);transition:var(--transition);position:relative;overflow:hidden}
-.btn:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(16,185,129,.55)}
-.btn:active{transform:translateY(0)}
-.btn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.4),transparent 60%);
-  opacity:0;transition:.4s;transform:scale(0)}
-.btn:active::after{opacity:1;transform:scale(3);transition:0s}
-.btn-secondary{background:var(--glass);color:var(--primary);border:2px solid var(--primary)}
-.btn-secondary:hover{background:var(--primary);color:#fff}
-/* ============ 12. HERO ============ */
-#cover{min-height:88vh;display:flex;flex-direction:column;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:60px 30px}
-#cover::before{content:'';position:absolute;top:-50%;right:-30%;width:600px;height:600px;
-  background:radial-gradient(circle,rgba(16,185,129,.25),transparent 70%);filter:blur(40px);animation:float 8s infinite ease-in-out}
-#cover::after{content:'';position:absolute;bottom:-40%;left:-20%;width:500px;height:500px;
-  background:radial-gradient(circle,rgba(6,182,212,.22),transparent 70%);filter:blur(40px);animation:float 10s infinite ease-in-out reverse}
+/* ====== GLASS CARD ====== */
+.glass{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;
+  margin-bottom:22px;box-shadow:var(--shadow);transition:var(--transition)}
+.glass:hover{box-shadow:var(--shadow-lg)}
+@media (max-width:600px){.glass{padding:20px 16px;border-radius:var(--radius)}}
+.section-target{scroll-margin-top:90px}
+/* ====== HERO ====== */
+#cover{text-align:center;padding:60px 30px 50px;position:relative;overflow:hidden;
+  background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--border);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow);margin-bottom:22px}
+#cover::before{content:'';position:absolute;top:-40%;right:-20%;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(16,185,129,.28),transparent 70%);filter:blur(40px);
+  animation:float 8s infinite ease-in-out;z-index:0}
+#cover::after{content:'';position:absolute;bottom:-40%;left:-20%;width:450px;height:450px;
+  background:radial-gradient(circle,rgba(6,182,212,.22),transparent 70%);filter:blur(40px);
+  animation:float 10s infinite ease-in-out reverse;z-index:0}
 @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-30px)}}
-.hero-badge{display:inline-block;padding:6px 16px;background:rgba(16,185,129,.15);
-  color:var(--primary);border-radius:50px;font-weight:700;font-size:.85rem;
-  margin-bottom:20px;border:1px solid rgba(16,185,129,.3);position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;
+  background:rgba(16,185,129,.15);color:var(--primary);border-radius:50px;
+  font-weight:700;font-size:.82rem;margin-bottom:20px;border:1px solid rgba(16,185,129,.3);
+  position:relative;z-index:2}
 #cover h1{position:relative;z-index:2;margin-bottom:16px;
   background:linear-gradient(135deg,var(--primary),var(--accent),var(--accent-2));
   background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
   background-clip:text;animation:shimmer 4s infinite}
 @keyframes shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-.hero-sub{font-size:1.15rem;max-width:640px;margin:0 auto 30px;color:var(--muted);position:relative;z-index:2}
-.typing-wrap{font-family:'Inter',monospace;font-size:1rem;color:var(--primary);
-  font-weight:600;margin:18px 0 24px;min-height:24px;position:relative;z-index:2}
+.hero-sub{font-size:1.1rem;max-width:620px;margin:0 auto 26px;color:var(--muted);position:relative;z-index:2}
+.typing-wrap{font-size:1rem;color:var(--primary);font-weight:600;margin:16px 0 24px;
+  min-height:24px;position:relative;z-index:2}
 .typing-cursor{display:inline-block;width:2px;height:1.1em;background:var(--primary);
   vertical-align:middle;animation:blink .8s infinite}
 @keyframes blink{50%{opacity:0}}
-.hero-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2}
-/* Stats */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-top:40px;position:relative;z-index:2}
-.stat-card{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--border);
-  border-radius:var(--radius);padding:20px;text-align:center;transition:var(--transition)}
-.stat-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
-.stat-num{font-size:2rem;font-weight:800;
+.hero-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2}
+/* ====== BUTTONS ====== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 26px;border-radius:50px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;text-decoration:none;font-weight:700;font-size:.96rem;border:none;cursor:pointer;
+  box-shadow:0 6px 18px rgba(16,185,129,.4);transition:var(--transition);
+  position:relative;overflow:hidden;font-family:var(--font)}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(16,185,129,.55)}
+.btn:active{transform:translateY(0)}
+.btn::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(circle,rgba(255,255,255,.5),transparent 60%);
+  opacity:0;transition:.4s;transform:scale(0)}
+.btn:active::after{opacity:1;transform:scale(3);transition:0s}
+.btn-secondary{background:var(--glass);color:var(--primary);border:2px solid var(--primary)}
+.btn-secondary:hover{background:var(--primary);color:#fff}
+.btn-sm{padding:9px 18px;font-size:.85rem}
+/* ====== STATS ====== */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:14px;margin-top:34px;position:relative;z-index:2}
+.stat-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 14px;text-align:center;transition:var(--transition)}
+.stat-card:hover{transform:translateY(-5px) scale(1.03);box-shadow:var(--shadow-lg)}
+.stat-num{font-size:1.9rem;font-weight:900;
   background:linear-gradient(135deg,var(--primary),var(--accent));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;line-height:1}
-.stat-label{font-size:.82rem;color:var(--muted);margin-top:6px;font-weight:600}
-/* ============ 13. SECTION HEADER ============ */
-.section-target{scroll-margin-top:90px}
-.section-hero{width:100%;height:180px;object-fit:cover;border-radius:var(--radius);margin-bottom:22px;box-shadow:var(--shadow)}
-/* ============ 14. CALLOUT ============ */
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;line-height:1}
+.stat-label{font-size:.78rem;color:var(--muted);margin-top:6px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px}
+/* ====== SECTION IMG ====== */
+.section-hero{width:100%;height:170px;object-fit:cover;border-radius:var(--radius);
+  margin-bottom:20px;box-shadow:var(--shadow)}
+/* ====== CALLOUT ====== */
 .callout{border-left:5px solid var(--primary);background:rgba(16,185,129,.1);
-  padding:16px 22px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:20px 0}
+  padding:16px 20px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:18px 0;
+  font-size:.96rem}
 .callout.warning{border-left-color:var(--warning);background:rgba(245,158,11,.1)}
 .callout.danger{border-left-color:var(--danger);background:rgba(239,68,68,.1)}
 .callout strong{color:var(--primary)}
-.callout.warning strong{color:var(--warning)}
-/* ============ 15. ACCORDION ============ */
-.accordion-item{margin-bottom:10px}
-.accordion-btn{width:100%;text-align:left;background:rgba(16,185,129,.06);border:1px solid var(--border);
-  padding:15px 18px;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;
-  color:var(--text-color);display:flex;justify-content:space-between;align-items:center;
-  transition:var(--transition);font-size:1rem;font-family:var(--font)}
-.accordion-btn:hover{background:rgba(16,185,129,.15)}
-.accordion-content{max-height:0;overflow:hidden;padding:0 18px;transition:max-height .4s ease,padding .3s;
-  background:rgba(16,185,129,.03);border-radius:0 0 var(--radius-sm) var(--radius-sm);border:1px solid transparent}
-.accordion-content.open{max-height:600px;padding:16px 18px;margin-bottom:12px;border-color:var(--border)}
-/* ============ 16. TABLE ============ */
-.table-responsive{overflow-x:auto;margin:20px 0}
-table{width:100%;border-collapse:collapse;background:rgba(255,255,255,.35);border-radius:var(--radius-sm);overflow:hidden;min-width:520px}
+/* ====== ACCORDION ====== */
+.acc{margin-bottom:10px}
+.acc-btn{width:100%;text-align:left;background:rgba(16,185,129,.06);
+  border:1px solid var(--border);padding:14px 18px;border-radius:var(--radius-sm);
+  font-weight:700;cursor:pointer;color:var(--text-color);
+  display:flex;justify-content:space-between;align-items:center;
+  transition:var(--transition);font-size:.98rem;font-family:var(--font)}
+.acc-btn:hover{background:rgba(16,185,129,.14)}
+.acc-body{max-height:0;overflow:hidden;padding:0 18px;transition:max-height .4s;
+  background:rgba(16,185,129,.04);border-radius:0 0 var(--radius-sm) var(--radius-sm)}
+.acc-body.open{max-height:520px;padding:14px 18px;margin-bottom:12px}
+/* ====== TABLE ====== */
+.tbl-wrap{overflow-x:auto;margin:18px 0}
+table{width:100%;border-collapse:collapse;background:rgba(255,255,255,.4);
+  border-radius:var(--radius-sm);overflow:hidden;min-width:520px}
 body.dark-mode table{background:rgba(15,23,42,.4)}
-th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);color:var(--text-color);font-size:.95rem}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);
+  color:var(--text-color);font-size:.92rem}
 th{background:rgba(16,185,129,.18);font-weight:700}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(16,185,129,.06)}
-/* ============ 17. GRID CARDS ============ */
-.grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:20px 0}
+/* ====== MINI CARDS ====== */
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:16px;margin:18px 0}
 .mini-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
-  padding:22px;transition:var(--transition)}
+  padding:20px;transition:var(--transition);position:relative;overflow:hidden}
+.mini-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(180deg,var(--primary),var(--accent));transform:scaleY(0);
+  transform-origin:top;transition:.4s}
 .mini-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--primary)}
-.mini-card .emoji{font-size:2.6rem;display:block;margin-bottom:10px}
-.mini-card h4{margin:0 0 8px;color:var(--primary)}
-/* ============ 18. TIMELINE ============ */
-.timeline{border-left:3px solid var(--primary);padding-left:22px;margin:22px 0}
-.timeline-item{position:relative;margin-bottom:24px}
-.timeline-item::before{content:'';position:absolute;left:-30px;top:6px;width:14px;height:14px;
+.mini-card:hover::before{transform:scaleY(1)}
+.mini-card .emoji{font-size:2.5rem;display:block;margin-bottom:8px}
+.mini-card h4{margin:0 0 6px;color:var(--primary);font-size:1rem}
+.mini-card p{margin:0;font-size:.92rem;color:var(--text-color)}
+/* ====== TIMELINE ====== */
+.timeline{border-left:3px solid var(--primary);padding-left:22px;margin:20px 0}
+.tl-item{position:relative;margin-bottom:22px}
+.tl-item::before{content:'';position:absolute;left:-30px;top:6px;width:14px;height:14px;
   background:var(--primary);border-radius:50%;box-shadow:0 0 0 4px rgba(16,185,129,.25)}
-.timeline-item h4{margin:0 0 6px;color:var(--primary)}
-/* ============ 19. FLIP CARD ============ */
-.flip-card{background:transparent;height:210px;perspective:1200px;cursor:pointer}
-.flip-card-inner{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
-.flip-card.flipped .flip-card-inner{transform:rotateY(180deg)}
-.flip-card-front,.flip-card-back{position:absolute;inset:0;backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;border-radius:var(--radius);padding:22px;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  border:1px solid var(--border);box-shadow:var(--shadow);background:var(--glass)}
-.flip-card-front{color:var(--text-color)}
-.flip-card-back{transform:rotateY(180deg);color:var(--text-color)}
-.flip-card-back.fakta{border-top:5px solid var(--success)}
-.flip-card-back.mitos{border-top:5px solid var(--danger)}
-.flip-card-front h4{margin:0 0 8px;color:var(--primary);font-size:.9rem;letter-spacing:.5px}
-.flip-card-front p,.flip-card-back p{margin:0;font-size:.92rem}
-.flip-card-back h4{margin:0 0 8px}
-/* ============ 20. QUIZ ============ */
-.question-card{padding:22px 24px;background:var(--glass);backdrop-filter:blur(10px);
-  border:1px solid var(--border);border-radius:var(--radius);margin-bottom:18px;transition:var(--transition)}
-.q-title{font-weight:700;font-size:1.02rem;margin-bottom:14px;color:var(--text-color);line-height:1.5}
-.options{display:flex;flex-direction:column;gap:10px}
-.option-btn{background:rgba(255,255,255,.4);border:1.5px solid var(--border);
-  padding:13px 18px;border-radius:var(--radius-sm);text-align:left;cursor:pointer;
-  font-size:.96rem;font-weight:500;color:var(--text-color);transition:var(--transition);font-family:var(--font)}
-body.dark-mode .option-btn{background:rgba(15,23,42,.4)}
-.option-btn:hover:not(:disabled){background:rgba(16,185,129,.15);border-color:var(--primary);transform:translateX(5px)}
-.option-btn.correct{background:rgba(16,185,129,.22);border-color:var(--success);color:var(--primary-dark);font-weight:700}
-.option-btn.wrong{background:rgba(239,68,68,.18);border-color:var(--danger);color:#b91c1c}
-body.dark-mode .option-btn.wrong{color:#fca5a5}
-.option-btn:disabled{cursor:default;opacity:.85}
-.q-feedback{margin-top:14px;padding:14px 16px;border-radius:var(--radius-sm);display:none;
-  background:rgba(255,255,255,.5);font-size:.93rem;line-height:1.6;border-left:4px solid var(--primary)}
-body.dark-mode .q-feedback{background:rgba(15,23,42,.5)}
+.tl-item h4{margin:0 0 4px;color:var(--primary)}
+.tl-item p{margin:0;font-size:.94rem;color:var(--text-color)}
+/* ====== FLIP CARDS ====== */
+.flip-card{background:transparent;height:200px;perspective:1200px;cursor:pointer}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .7s;
+  transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;border-radius:var(--radius);padding:20px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;border:1px solid var(--border);box-shadow:var(--shadow);
+  background:var(--glass)}
+.flip-back{transform:rotateY(180deg)}
+.flip-back.fakta{border-top:5px solid var(--success)}
+.flip-back.mitos{border-top:5px solid var(--danger)}
+.flip-front h4{margin:0 0 8px;color:var(--primary);font-size:.82rem;letter-spacing:.8px;text-transform:uppercase}
+.flip-front p,.flip-back p{margin:0;font-size:.9rem}
+.flip-back h4{margin:0 0 8px;font-size:1rem}
+/* ====== INTERACTIVE SWITCHER ====== */
+.switcher{display:inline-flex;background:rgba(16,185,129,.1);border-radius:50px;
+  padding:4px;gap:4px;margin-bottom:16px}
+.switcher button{padding:9px 20px;border-radius:50px;border:none;background:transparent;
+  font-weight:700;font-size:.88rem;cursor:pointer;color:var(--muted);
+  transition:var(--transition);font-family:var(--font)}
+.switcher button.active{background:var(--primary);color:#fff;
+  box-shadow:0 4px 12px rgba(16,185,129,.4)}
+.switch-content{display:none}
+.switch-content.show{display:block;animation:fadeUp .5s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+/* ====== FOB VISUAL ====== */
+.fob-visual{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(6,182,212,.08));
+  border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:18px 0}
+.fob-track{display:flex;align-items:center;justify-content:space-between;
+  margin:20px 0;position:relative}
+.fob-stop{flex:1;text-align:center;position:relative;z-index:2}
+.fob-stop .icon{font-size:2.4rem;background:var(--glass);width:70px;height:70px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 8px;border:3px solid var(--primary);transition:var(--transition)}
+.fob-stop.active .icon{border-color:var(--warning);background:rgba(245,158,11,.15);
+  transform:scale(1.15);box-shadow:0 0 20px rgba(245,158,11,.5)}
+.fob-stop .lbl{font-size:.78rem;font-weight:700;color:var(--muted)}
+.fob-line{position:absolute;top:35px;left:10%;right:10%;height:3px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:3px}
+.fob-info{padding:14px;background:var(--glass);border-radius:var(--radius-sm);
+  border-left:4px solid var(--warning);font-size:.92rem;margin-top:14px}
+/* ====== DRAG & DROP ====== */
+.dnd-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.dnd-bank{background:rgba(16,185,129,.06);border:2px dashed rgba(16,185,129,.4);
+  border-radius:var(--radius);padding:16px;min-height:120px}
+.dnd-bank h4{margin:0 0 12px;font-size:.88rem;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.dnd-item{padding:10px 14px;background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--radius-sm);font-size:.88rem;font-weight:600;margin-bottom:8px;
+  cursor:grab;transition:var(--transition);color:var(--text-color)}
+.dnd-item:active{cursor:grabbing}
+.dnd-item.dragging{opacity:.4;transform:scale(.95)}
+.dnd-drop{background:rgba(255,255,255,.4);border:2px dashed rgba(16,185,129,.4);
+  border-radius:var(--radius);padding:16px;min-height:120px;transition:var(--transition)}
+body.dark-mode .dnd-drop{background:rgba(15,23,42,.4)}
+.dnd-drop h4{margin:0 0 12px;font-size:.88rem;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.dnd-drop.over{background:rgba(16,185,129,.15);border-color:var(--primary);
+  transform:scale(1.02)}
+.dnd-drop.correct-zone{border-color:var(--success);background:rgba(16,185,129,.1)}
+.dnd-item.correct{background:rgba(16,185,129,.2);border-color:var(--success);
+  cursor:default;pointer-events:none}
+.dnd-item.wrong{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (max-width:700px){.dnd-wrap{grid-template-columns:1fr}}
+/* ====== QUIZ ====== */
+.q-card{padding:20px 22px;background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--radius);margin-bottom:16px;transition:var(--transition);
+  position:relative;overflow:hidden}
+.q-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(180deg,var(--primary),var(--accent))}
+.q-num{display:inline-block;padding:3px 10px;background:var(--primary);color:#fff;
+  border-radius:50px;font-size:.72rem;font-weight:800;letter-spacing:.5px;margin-bottom:10px}
+.q-title{font-weight:700;font-size:1rem;margin-bottom:12px;color:var(--text-color);line-height:1.5}
+.options{display:flex;flex-direction:column;gap:9px}
+.opt-btn{background:rgba(255,255,255,.4);border:1.5px solid var(--border);
+  padding:12px 16px;border-radius:var(--radius-sm);text-align:left;cursor:pointer;
+  font-size:.94rem;font-weight:500;color:var(--text-color);transition:var(--transition);
+  font-family:var(--font)}
+body.dark-mode .opt-btn{background:rgba(15,23,42,.4)}
+.opt-btn:hover:not(:disabled){background:rgba(16,185,129,.12);border-color:var(--primary);
+  transform:translateX(5px)}
+.opt-btn.correct{background:rgba(16,185,129,.22);border-color:var(--success);
+  color:var(--primary-dark);font-weight:700}
+.opt-btn.wrong{background:rgba(239,68,68,.18);border-color:var(--danger);color:#b91c1c}
+body.dark-mode .opt-btn.wrong{color:#fca5a5}
+.opt-btn:disabled{cursor:default;opacity:.85}
+.q-fb{margin-top:12px;padding:12px 14px;border-radius:var(--radius-sm);display:none;
+  background:rgba(255,255,255,.5);font-size:.9rem;line-height:1.6;border-left:4px solid var(--primary)}
+body.dark-mode .q-fb{background:rgba(15,23,42,.5)}
 /* Score Box */
-.quiz-score-box{text-align:center;display:none;padding:36px 26px;
+.score-box{display:none;padding:32px 24px;text-align:center;
   background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(6,182,212,.12));
-  border:2px solid var(--primary)}
-.quiz-score-box.show{display:block;animation:fadeUp .6s}
-.quiz-score-box h3{margin:14px 0 8px;color:var(--primary);font-size:1.5rem}
-.score-text{font-size:1.1rem;font-weight:700;color:var(--text-color)}
-/* Progress Ring */
-.progress-ring-wrap{position:relative;width:130px;height:130px;margin:0 auto}
-.progress-ring{width:130px;height:130px;transform:rotate(-90deg)}
+  border:2px solid var(--primary);border-radius:var(--radius-lg);margin-top:16px}
+.score-box.show{display:block;animation:fadeUp .6s}
+.ring-wrap{position:relative;width:130px;height:130px;margin:0 auto 16px}
+.ring{width:130px;height:130px;transform:rotate(-90deg)}
 .ring-bg{fill:none;stroke:rgba(16,185,129,.15);stroke-width:10}
 .ring-fg{fill:none;stroke:url(#ringGradient);stroke-width:10;stroke-linecap:round;
-  stroke-dasharray:326.7;stroke-dashoffset:326.7;transition:stroke-dashoffset 1.2s ease}
-.ring-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-size:1.6rem;font-weight:800;color:var(--primary)}
-/* ============ 21. SIMULATOR ============ */
-.simulator{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(6,182,212,.08));
-  border:2px dashed rgba(16,185,129,.4)}
-.sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
-.sim-field{display:flex;flex-direction:column;gap:6px}
-.sim-field label{font-size:.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.sim-field input{padding:12px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);
-  background:rgba(255,255,255,.6);font-size:1rem;font-family:var(--font);
-  color:var(--text-color);transition:var(--transition);outline:none}
+  transition:stroke-dashoffset 1.2s ease}
+.ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;font-weight:900;color:var(--primary)}
+.score-box h3{margin:10px 0 8px;color:var(--primary);font-size:1.4rem}
+.score-txt{font-size:1.05rem;font-weight:700;color:var(--text-color)}
+/* ====== SIMULATOR ====== */
+.sim{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(6,182,212,.08));
+  border:2px dashed rgba(16,185,129,.4);border-radius:var(--radius-lg);padding:24px;margin:20px 0}
+.sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.sim-field{display:flex;flex-direction:column;gap:5px}
+.sim-field label{font-size:.78rem;font-weight:800;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.5px}
+.sim-field input{padding:11px 13px;border-radius:var(--radius-sm);
+  border:1.5px solid var(--border);background:rgba(255,255,255,.6);
+  font-size:.98rem;font-family:var(--font);color:var(--text-color);
+  transition:var(--transition);outline:none}
 body.dark-mode .sim-field input{background:rgba(15,23,42,.5)}
 .sim-field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(16,185,129,.2)}
-.sim-result{margin-top:20px;padding:20px;background:var(--glass);border:1px solid var(--border);
-  border-radius:var(--radius);display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.sim-result-item{padding:14px;border-radius:var(--radius-sm);background:rgba(16,185,129,.1)}
-.sim-result-item .lbl{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700}
-.sim-result-item .val{font-size:1.25rem;font-weight:800;color:var(--primary);margin-top:4px}
-/* ============ 22. CHECKLIST ============ */
-.checklist-item{display:flex;align-items:center;gap:12px;margin-bottom:12px;cursor:pointer;
-  padding:10px 14px;border-radius:var(--radius-sm);transition:var(--transition);border:1px solid transparent}
-.checklist-item:hover{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.2)}
-.checklist-item input{width:20px;height:20px;cursor:pointer;accent-color:var(--primary);flex-shrink:0}
-.checklist-item.done span{text-decoration:line-through;color:var(--muted);opacity:.7}
-/* ============ 23. FLOATING CONTROLS ============ */
-.floating-controls{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:200}
-.fab{width:48px;height:48px;border-radius:50%;border:1px solid var(--border);
-  background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  cursor:pointer;font-size:1.2rem;color:var(--text-color);
-  display:flex;align-items:center;justify-content:center;transition:var(--transition);box-shadow:var(--shadow)}
-.fab:hover{background:var(--primary);color:#fff;transform:scale(1.12)}
-/* ============ 24. CERTIFICATE ============ */
-.certificate{padding:40px 30px;background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(6,182,212,.15));
-  border:4px double var(--primary);border-radius:var(--radius-lg);text-align:center;margin:30px 0}
-.certificate h2{border:none;color:var(--primary);font-size:2rem;margin-bottom:10px}
-.certificate h2::after{display:none}
-.certificate .cert-name{font-size:2rem;font-weight:900;color:var(--text-color);
-  margin:20px 0;padding:14px;background:rgba(255,255,255,.4);border-radius:var(--radius);
-  border:1px dashed var(--primary)}
-body.dark-mode .certificate .cert-name{background:rgba(15,23,42,.4)}
-.cert-input{padding:12px 16px;border-radius:var(--radius-sm);border:2px solid var(--primary);
-  font-size:1rem;font-family:var(--font);text-align:center;background:rgba(255,255,255,.5);
-  color:var(--text-color);width:100%;max-width:340px;outline:none;margin:10px auto;display:block}
+.sim-res{margin-top:18px;padding:16px;background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--radius);display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sim-res-item{padding:12px;border-radius:var(--radius-sm);background:rgba(16,185,129,.1)}
+.sim-res-item .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.5px;font-weight:800}
+.sim-res-item .val{font-size:1.15rem;font-weight:900;color:var(--primary);margin-top:4px}
+.sim-res-item.hi{grid-column:1/-1;background:rgba(16,185,129,.2)}
+.sim-res-item.hi .val{font-size:1.5rem}
+@media (max-width:600px){.sim-grid,.sim-res{grid-template-columns:1fr}}
+/* ====== REFLECTION ====== */
+.chk{display:flex;align-items:center;gap:12px;margin-bottom:10px;cursor:pointer;
+  padding:10px 14px;border-radius:var(--radius-sm);transition:var(--transition);
+  border:1px solid transparent}
+.chk:hover{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.2)}
+.chk input{width:20px;height:20px;cursor:pointer;accent-color:var(--primary);flex-shrink:0}
+.chk.done span{text-decoration:line-through;color:var(--muted);opacity:.7}
+/* ====== BADGES ====== */
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;
+  margin:16px 0}
+.badge{padding:14px 10px;text-align:center;border-radius:var(--radius);
+  background:rgba(16,185,129,.06);border:2px dashed rgba(16,185,129,.3);
+  opacity:.4;transition:var(--transition);filter:grayscale(1)}
+.badge.unlocked{opacity:1;filter:none;background:linear-gradient(135deg,rgba(16,185,129,.18),rgba(6,182,212,.18));
+  border-style:solid;border-color:var(--primary);box-shadow:0 6px 20px rgba(16,185,129,.3);
+  animation:pop .5s}
+@keyframes pop{0%{transform:scale(.8)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+.badge .ic{font-size:2rem;display:block;margin-bottom:6px}
+.badge .nm{font-size:.75rem;font-weight:800;color:var(--text-color);
+  text-transform:uppercase;letter-spacing:.4px}
+.badge .ds{font-size:.7rem;color:var(--muted);margin-top:3px}
+/* ====== CERTIFICATE ====== */
+.cert{padding:40px 26px;background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(6,182,212,.15));
+  border:4px double var(--primary);border-radius:var(--radius-lg);text-align:center;margin:26px 0}
+.cert h2{border:none;color:var(--primary);font-size:1.9rem;margin-bottom:8px}
+.cert h2::after{display:none}
+.cert-name{font-size:1.7rem;font-weight:900;color:var(--text-color);margin:18px 0;
+  padding:14px;background:rgba(255,255,255,.4);border-radius:var(--radius);
+  border:1px dashed var(--primary);word-break:break-word}
+body.dark-mode .cert-name{background:rgba(15,23,42,.4)}
+.cert-input{padding:11px 15px;border-radius:var(--radius-sm);border:2px solid var(--primary);
+  font-size:.98rem;font-family:var(--font);text-align:center;
+  background:rgba(255,255,255,.5);color:var(--text-color);width:100%;max-width:340px;
+  outline:none;margin:8px auto;display:block}
 body.dark-mode .cert-input{background:rgba(15,23,42,.5)}
-/* ============ 25. FOOTER ============ */
-footer{margin-top:60px;padding:30px 0;text-align:center;color:var(--muted);font-size:.9rem;
-  border-top:1px solid var(--border);position:relative}
-footer .watermark{font-weight:800;font-size:1.05rem;
+.cert-score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}
+.cert-score-grid>div{padding:12px;background:rgba(255,255,255,.5);border-radius:var(--radius-sm);
+  text-align:center}
+body.dark-mode .cert-score-grid>div{background:rgba(15,23,42,.5)}
+.cert-score-grid .lbl{font-size:.72rem;color:var(--muted);font-weight:800;
+  text-transform:uppercase;letter-spacing:.4px}
+.cert-score-grid .val{font-size:1.4rem;font-weight:900;color:var(--primary);margin-top:4px}
+/* ====== FLOATING CONTROLS ====== */
+.fc{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:400}
+.fab{width:48px;height:48px;border-radius:50%;border:1px solid var(--border);
+  background:var(--glass);backdrop-filter:blur(12px);cursor:pointer;font-size:1.15rem;
+  color:var(--text-color);display:flex;align-items:center;justify-content:center;
+  transition:var(--transition);box-shadow:var(--shadow)}
+.fab:hover{background:var(--primary);color:#fff;transform:scale(1.12)}
+/* ====== FOOTER ====== */
+footer{margin-top:40px;padding:26px 0;text-align:center;color:var(--muted);
+  font-size:.88rem;border-top:1px solid var(--border)}
+footer .wm{font-weight:900;font-size:1.05rem;
   background:linear-gradient(135deg,var(--primary),var(--accent));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
-/* ============ 26. ANIMATIONS ============ */
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes pop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
-/* ============ 27. RESPONSIVE ============ */
-@media (max-width:900px){
-  #sidebar{transform:translateX(-100%);width:260px;padding-top:70px;box-shadow:20px 0 40px rgba(0,0,0,.15)}
-  #sidebar.open{transform:translateX(0)}
-  #main-content{margin-left:0;padding:80px 18px 60px;max-width:100%}
-  .mobile-header{display:flex}
-  #topbar{top:auto;bottom:80px;right:16px;flex-direction:column-reverse}
-  h1{font-size:2rem!important}
-  h2{font-size:1.5rem}
-  #cover{min-height:auto;padding:40px 16px}
-  .glass-card{padding:22px 18px}
-  .sim-grid,.sim-result{grid-template-columns:1fr}
-  .floating-controls{bottom:16px;right:16px}
-  .fab{width:42px;height:42px;font-size:1rem}
-  .cursor-dot,.cursor-ring{display:none!important}
-  #particle-canvas{opacity:.4}
-}
-@media (max-width:480px){
-  .hero-buttons{flex-direction:column}
-  .hero-buttons .btn{width:100%}
-  .stats-grid{grid-template-columns:1fr 1fr}
-}
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:8px}
+footer a{color:var(--primary);font-weight:800;text-decoration:none;
+  padding:2px 6px;border-radius:6px;transition:var(--transition);display:inline-flex;
+  align-items:center;gap:4px}
+footer a:hover{background:rgba(16,185,129,.12);transform:translateY(-1px)}
+footer a::after{content:'↗';font-size:.75rem;opacity:.7}
+/* ====== MISC ====== */
+.sec-anchor{scroll-margin-top:90px}
+.hidden{display:none}
 </style>
 </head>
 <body>
 
-<!-- ============ LOADER ============ -->
+<!-- LOADER -->
 <div id="loader">
   <div class="loader-logo">🏆</div>
   <div class="loader-text">Memuat Master Class...</div>
   <div class="loader-bar"><div class="loader-bar-fill" id="loaderFill"></div></div>
 </div>
 
-<!-- ============ SCROLL PROGRESS ============ -->
 <div id="scroll-progress"></div>
-
-<!-- ============ CURSOR ============ -->
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
-
-<!-- ============ CANVAS ============ -->
 <canvas id="particle-canvas"></canvas>
 <canvas id="confetti-canvas"></canvas>
 
-<!-- ============ MOBILE HEADER ============ -->
-<div class="mobile-header">
-  <h3>🏆 Master Class Akuntansi</h3>
-  <button id="menu-toggle" aria-label="Menu">☰</button>
-</div>
-
-<!-- ============ TOPBAR ============ -->
-<div id="topbar">
-  <button class="topbar-btn" id="muteBtn" title="Mute/Unmute">🔊</button>
-  <button class="topbar-btn" id="presentBtn" title="Mode Presentasi">🖥️</button>
-  <button class="topbar-btn" id="themeBtn" title="Ganti Tema">🌙</button>
-  <button class="topbar-btn" id="shareBtn" title="Bagikan">📤</button>
-</div>
-
-<!-- ============ APP ============ -->
-<div id="app-container">
-
-  <!-- SIDEBAR -->
-  <nav id="sidebar">
-    <div class="sidebar-logo">
-      <span class="sidebar-logo-icon">🏆</span>
-      <span class="sidebar-logo-text">Master Class<br>Akuntansi</span>
+<!-- TOPBAR NAV -->
+<header id="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-brand" id="brandHome">
+      <span class="topbar-brand-icon">🏆</span>
+      <span class="topbar-brand-text">Master Class<br>Akuntansi</span>
+    </a>
+    <div id="xp-widget" title="XP & Level">
+      <span class="xp-level" id="xpLevel">Lv 1</span>
+      <div class="xp-bar-wrap"><div class="xp-bar" id="xpBar"></div></div>
+      <span class="xp-count" id="xpCount">0 XP</span>
     </div>
-    <a href="#cover" class="nav-item active" data-target="cover">🏠 Beranda</a>
-    <a href="#bab1" class="nav-item" data-target="bab1">📖 Bab 1: Persediaan</a>
-    <a href="#mitos1" class="nav-item" data-target="mitos1">🤔 Mitos/Fakta Bab 1</a>
-    <a href="#simBpp" class="nav-item" data-target="simBpp">🧮 Simulator BPP</a>
-    <a href="#kuis1" class="nav-item" data-target="kuis1">📝 Kuis Bab 1</a>
-    <a href="#bab2" class="nav-item" data-target="bab2">📖 Bab 2: Ekuitas</a>
-    <a href="#mitos2" class="nav-item" data-target="mitos2">🤔 Mitos/Fakta Bab 2</a>
-    <a href="#simSaham" class="nav-item" data-target="simSaham">🏢 Simulator Saham</a>
-    <a href="#kuis2" class="nav-item" data-target="kuis2">📝 Kuis Bab 2</a>
-    <a href="#penutup" class="nav-item" data-target="penutup">🎉 Penutup & Sertifikat</a>
-  </nav>
+    <nav class="nav-scroll" id="navScroll">
+      <button class="nav-pill active" data-scroll="cover">🏠 Beranda</button>
+      <button class="nav-pill" data-scroll="bab1">📖 Persediaan</button>
+      <button class="nav-pill" data-scroll="mitos1">🤔 Mitos B1</button>
+      <button class="nav-pill" data-scroll="simBpp">🧮 Sim BPP</button>
+      <button class="nav-pill" data-scroll="kuis1">📝 Kuis 1</button>
+      <button class="nav-pill" data-scroll="bab2">💼 Ekuitas</button>
+      <button class="nav-pill" data-scroll="mitos2">🤔 Mitos B2</button>
+      <button class="nav-pill" data-scroll="simSaham">🏢 Sim Saham</button>
+      <button class="nav-pill" data-scroll="kuis2">📝 Kuis 2</button>
+      <button class="nav-pill" data-scroll="badges">🏅 Badge</button>
+      <button class="nav-pill" data-scroll="penutup">🎓 Sertifikat</button>
+    </nav>
+    <div class="topbar-actions">
+      <button class="tb-btn" id="muteBtn" title="Suara">🔊</button>
+      <button class="tb-btn" id="presentBtn" title="Presentasi">🖥️</button>
+      <button class="tb-btn" id="themeBtn" title="Tema">🌙</button>
+      <button class="tb-btn" id="shareBtn" title="Bagikan">📤</button>
+    </div>
+  </div>
+</header>
 
-  <!-- MAIN CONTENT -->
-  <main id="main-content">
+<main>
 
-    <!-- ============ COVER ============ -->
-    <section id="cover" class="glass-card section-target">
-      <span class="hero-badge">✨ E-Modul Interaktif Akuntansi</span>
-      <h1>Persediaan & Ekuitas<br>Master Class Interaktif</h1>
-      <p class="hero-sub">Kuasai Akuntansi Persediaan, Ekuitas, dan Pendapatan dengan materi lengkap, simulator interaktif, dan kuis seru.</p>
-      <div class="typing-wrap"><span id="typingText"></span><span class="typing-cursor"></span></div>
-      <div class="hero-buttons">
-        <a href="#bab1" class="btn" data-scroll="bab1">🚀 Mulai Belajar</a>
-        <a href="#kuis1" class="btn btn-secondary" data-scroll="kuis1">📝 Langsung Kuis</a>
+  <!-- ============ HERO ============ -->
+  <section id="cover" class="sec-anchor" data-aos="fade-up">
+    <span class="hero-badge">✨ E-Modul Interaktif Akuntansi</span>
+    <h1>Persediaan & Ekuitas<br>Master Class Interaktif</h1>
+    <p class="hero-sub">Kuasai Akuntansi Persediaan, Ekuitas & Pendapatan dengan materi lengkap, simulator, kuis, dan gamifikasi XP. 🎮</p>
+    <div class="typing-wrap"><span id="typingText"></span><span class="typing-cursor"></span></div>
+    <div class="hero-buttons">
+      <button class="btn" data-scroll="bab1">🚀 Mulai Belajar</button>
+      <button class="btn btn-secondary" data-scroll="kuis1">📝 Langsung Kuis</button>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><span class="stat-num" data-count="30">0</span><span class="stat-label">Soal Kuis</span></div>
+      <div class="stat-card"><span class="stat-num" data-count="2">0</span><span class="stat-label">Bab Materi</span></div>
+      <div class="stat-card"><span class="stat-num" data-count="2">0</span><span class="stat-label">Simulator</span></div>
+      <div class="stat-card"><span class="stat-num" data-count="16">0</span><span class="stat-label">Mitos/Fakta</span></div>
+    </div>
+  </section>
+
+  <!-- ============ BAB 1 ============ -->
+  <section id="bab1" class="sec-anchor">
+    <div class="glass" data-aos="fade-up">
+      <img class="section-hero" src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=1000&q=80" alt="Gudang persediaan" loading="lazy">
+      <h2>Bab 1: Akuntansi Persediaan</h2>
+      <p>Persediaan adalah aset yang tersedia untuk dijual dalam kegiatan usaha normal, dalam proses produksi, atau dalam bentuk bahan/perlengkapan untuk digunakan dalam produksi atau pemberian jasa.</p>
+
+      <h3>📌 Jenis Persediaan per Jenis Perusahaan</h3>
+      <div class="grid-cards">
+        <div class="mini-card"><span class="emoji">💼</span><h4>Perusahaan Jasa</h4><p>Berupa Perlengkapan (Supplies)</p></div>
+        <div class="mini-card"><span class="emoji">🏪</span><h4>Perusahaan Dagang</h4><p>Berupa Persediaan Barang Dagang</p></div>
+        <div class="mini-card"><span class="emoji">🏭</span><h4>Perusahaan Manufaktur</h4><p>Bahan Baku, Barang Dalam Proses, Barang Jadi</p></div>
       </div>
-      <div class="stats-grid">
-        <div class="stat-card"><span class="stat-num" data-count="30">0</span><span class="stat-label">Soal Kuis</span></div>
-        <div class="stat-card"><span class="stat-num" data-count="2">0</span><span class="stat-label">Bab Materi</span></div>
-        <div class="stat-card"><span class="stat-num" data-count="2">0</span><span class="stat-label">Simulator</span></div>
-        <div class="stat-card"><span class="stat-num" data-count="16">0</span><span class="stat-label">Kartu Mitos/Fakta</span></div>
+
+      <h3>🎯 Latihan Kilat: Klasifikasikan Persediaan!</h3>
+      <p>Drag tiap item ke kategori yang tepat. <strong>+5 XP</strong> per jawaban benar!</p>
+      <div class="dnd-wrap">
+        <div class="dnd-bank" id="dndBank">
+          <h4>📦 Item Persediaan</h4>
+          <div class="dnd-item" draggable="true" data-cat="dagang">Baju untuk dijual kembali</div>
+          <div class="dnd-item" draggable="true" data-cat="manufaktur">Kayu mentah untuk produksi</div>
+          <div class="dnd-item" draggable="true" data-cat="jasa">Kertas & tinta kantor</div>
+          <div class="dnd-item" draggable="true" data-cat="manufaktur">Meja setengah jadi</div>
+          <div class="dnd-item" draggable="true" data-cat="dagang">Sepatu siap jual di toko</div>
+          <div class="dnd-item" draggable="true" data-cat="manufaktur">Motor jadi siap kirim</div>
+        </div>
+        <div>
+          <div class="dnd-drop" data-drop="jasa"><h4>💼 Perusahaan Jasa</h4></div>
+          <div class="dnd-drop" data-drop="dagang" style="margin-top:10px"><h4>🏪 Perusahaan Dagang</h4></div>
+          <div class="dnd-drop" data-drop="manufaktur" style="margin-top:10px"><h4>🏭 Perusahaan Manufaktur</h4></div>
+        </div>
       </div>
-    </section>
 
-    <!-- ============ BAB 1 ============ -->
-    <section id="bab1" class="section-target">
-      <div class="glass-card" data-aos="fade-up">
-        <img class="section-hero" src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=1000&q=80" alt="Gudang persediaan" loading="lazy">
-        <h2>Bab 1: Akuntansi Persediaan</h2>
-        <p>Persediaan adalah aset yang tersedia untuk dijual dalam kegiatan usaha normal, dalam proses produksi, atau dalam bentuk bahan/perlengkapan untuk digunakan dalam produksi atau pemberian jasa.</p>
+      <h3>📐 Pengukuran Persediaan</h3>
+      <div class="acc"><button class="acc-btn">Biaya Perolehan <span>▼</span></button>
+        <div class="acc-body"><p>Dipakai saat persediaan diperoleh dengan pembelian. Dihitung dari: <strong>Harga Beli + Biaya Angkut + Biaya Penanganan − Potongan</strong>.</p></div></div>
+      <div class="acc"><button class="acc-btn">Biaya Standar <span>▼</span></button>
+        <div class="acc-body"><p>Dipakai saat persediaan diproduksi sendiri. Dihitung dari: <strong>Biaya Langsung + Biaya Tidak Langsung</strong>.</p></div></div>
+      <div class="acc"><button class="acc-btn">Nilai Wajar <span>▼</span></button>
+        <div class="acc-body"><p>Dipakai saat persediaan diperoleh dengan cara lain (sumbangan, tukar-menukar).</p></div></div>
 
-        <h3>📌 Jenis Persediaan per Jenis Perusahaan</h3>
-        <div class="grid-cards">
-          <div class="mini-card"><span class="emoji">💼</span><h4>Perusahaan Jasa</h4><p>Berupa Perlengkapan (Supplies)</p></div>
-          <div class="mini-card"><span class="emoji">🏪</span><h4>Perusahaan Dagang</h4><p>Berupa Persediaan Barang Dagang</p></div>
-          <div class="mini-card"><span class="emoji">🏭</span><h4>Perusahaan Manufaktur</h4><p>Bahan Baku, Barang Dalam Proses, Barang Jadi</p></div>
-        </div>
-
-        <h3>📐 Pengukuran Persediaan</h3>
-        <div class="accordion-item">
-          <button class="accordion-btn">Biaya Perolehan <span>▼</span></button>
-          <div class="accordion-content"><p>Dipakai saat persediaan diperoleh dengan pembelian. Dihitung dari: <strong>Harga Beli + Biaya Angkut + Biaya Penanganan − Potongan</strong>.</p></div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-btn">Biaya Standar <span>▼</span></button>
-          <div class="accordion-content"><p>Dipakai saat persediaan diproduksi sendiri. Dihitung dari: <strong>Biaya Langsung + Biaya Tidak Langsung</strong>.</p></div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-btn">Nilai Wajar <span>▼</span></button>
-          <div class="accordion-content"><p>Dipakai saat persediaan diperoleh dengan cara lain (contoh: sumbangan, tukar-menukar).</p></div>
-        </div>
-
-        <h3>📝 Sistem Pencatatan Persediaan</h3>
-        <div class="table-responsive">
+      <h3>🔀 Sistem Pencatatan: Klik untuk Bandingkan!</h3>
+      <div class="switcher">
+        <button class="active" data-switch="periodik">📒 Periodik / Fisik</button>
+        <button data-switch="perpetual">⚡ Perpetual</button>
+      </div>
+      <div class="switch-content show" id="sw-periodik">
+        <div class="tbl-wrap">
           <table>
-            <tr><th>Karakteristik</th><th>Fisik / Periodik</th><th>Perpetual</th></tr>
-            <tr><td>Mutasi</td><td>Tidak ada mutasi langsung saat transaksi</td><td>Ada pencatatan mutasi real-time</td></tr>
-            <tr><td>Beban Pokok Penjualan</td><td>Dihitung akhir periode</td><td>Diketahui setiap penjualan</td></tr>
+            <tr><th>Karakteristik</th><th>Sistem Periodik</th></tr>
+            <tr><td>Mutasi persediaan</td><td>Tidak dicatat langsung saat transaksi</td></tr>
+            <tr><td>Beban Pokok Penjualan</td><td>Dihitung di akhir periode</td></tr>
+            <tr><td>Pencatatan pembelian</td><td>Ke akun "Pembelian"</td></tr>
+            <tr><td>Cocok untuk</td><td>Usaha kecil dengan jenis barang sedikit</td></tr>
           </table>
         </div>
-
-        <div class="callout">
-          <strong>💡 Rumus Beban Pokok Persediaan (Sistem Periodik):</strong><br>
-          Persediaan Awal + Pembelian Bersih = <em>Barang Tersedia Untuk Dijual</em><br>
-          Barang Tersedia Untuk Dijual − Persediaan Akhir = <strong>Beban Pokok Penjualan</strong>
-        </div>
-
-        <h3>🚚 Penentuan Kepemilikan Barang</h3>
-        <div class="grid-cards">
-          <div class="mini-card"><h4 style="color:var(--primary)">FOB Shipping Point</h4><p>Kepemilikan beralih ke pembeli sejak barang keluar dari gudang penjual (in transit).</p></div>
-          <div class="mini-card"><h4 style="color:var(--primary)">FOB Destination</h4><p>Kepemilikan baru beralih setelah barang sampai di tujuan pembeli.</p></div>
-          <div class="mini-card"><h4 style="color:var(--primary)">Konsinyasi</h4><p>Consignor (pemilik) menitipkan ke Consignee (agen). Hak milik tetap pada Consignor sampai barang terjual ke pihak ketiga.</p></div>
-        </div>
-
-        <h3>📊 Metode Penilaian Beban Pokok</h3>
-        <div class="timeline">
-          <div class="timeline-item"><h4>FIFO (First In First Out)</h4><p>Asumsi barang pertama masuk, pertama dijual. Persediaan akhir dinilai dengan harga beli terakhir — cenderung tinggi di neraca saat inflasi.</p></div>
-          <div class="timeline-item"><h4>Average (Rata-rata)</h4><p>Periodik: rata-rata sederhana. Perpetual: rata-rata bergerak (harga rata-rata diperbarui tiap mutasi).</p></div>
-          <div class="timeline-item"><h4>Identifikasi Khusus</h4><p>Tiap barang dilacak per unit. Cocok untuk barang mahal & terbatas (mobil mewah, intan, barang antik).</p></div>
-        </div>
-
-        <div class="callout warning">
-          <strong>⚠️ LOCOM / LCNRV</strong><br>
-          Lower of Cost or Market / Lower of Cost and Net Realizable Value: persediaan dicatat pada nilai <strong>terendah</strong> antara biaya perolehan vs nilai pasar. Berlaku jika barang rusak, usang, atau harga pasar turun.
-        </div>
-
-        <h3>✅ Ringkasan Bab 1</h3>
-        <ul>
-          <li>Persediaan terbagi: Jasa (Supplies), Dagang (Barang Dagang), Manufaktur (Bahan Baku, WIP, Barang Jadi).</li>
-          <li>Pengukuran: Biaya Perolehan, Biaya Standar, Nilai Wajar.</li>
-          <li>Sistem: Periodik (akhir periode) vs Perpetual (real-time).</li>
-          <li>Kepemilikan: FOB Shipping Point / Destination & Konsinyasi.</li>
-          <li>Metode biaya: FIFO, Average, Identifikasi Khusus, LCNRV.</li>
-        </ul>
       </div>
-
-      <div class="glass-card" data-aos="fade-up">
-        <h3>✅ Refleksi Bab 1</h3>
-        <label class="checklist-item"><input type="checkbox" data-refl="b1-1"><span>Saya mengerti definisi & jenis persediaan.</span></label>
-        <label class="checklist-item"><input type="checkbox" data-refl="b1-2"><span>Saya bisa membedakan sistem Periodik & Perpetual.</span></label>
-        <label class="checklist-item"><input type="checkbox" data-refl="b1-3"><span>Saya memahami FOB Shipping Point vs Destination.</span></label>
-        <label class="checklist-item"><input type="checkbox" data-refl="b1-4"><span>Saya paham metode FIFO, Average, Identifikasi Khusus.</span></label>
-      </div>
-    </section>
-
-    <!-- ============ MITOS/FAKTA BAB 1 ============ -->
-    <section id="mitos1" class="section-target">
-      <div class="glass-card" data-aos="fade-up">
-        <h2>🤔 Mitos atau Fakta? — Bab 1</h2>
-        <p>Klik tiap kartu untuk melihat jawabannya!</p>
-        <div class="grid-cards">
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 1</h4><p>Persediaan pada perusahaan jasa biasanya berupa perlengkapan (supplies).</p></div>
-            <div class="flip-card-back fakta"><h4>✅ Fakta</h4><p>Perusahaan jasa tidak menjual barang berwujud, jadi persediaannya berupa perlengkapan operasional.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 2</h4><p>Sistem periodik mencatat mutasi persediaan langsung setiap transaksi.</p></div>
-            <div class="flip-card-back mitos"><h4>❌ Mitos</h4><p>Yang mencatat mutasi langsung adalah sistem Perpetual, bukan Periodik.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 3</h4><p>FOB Destination berarti barang sudah jadi milik pembeli sejak dikirim dari gudang penjual.</p></div>
-            <div class="flip-card-back mitos"><h4>❌ Mitos</h4><p>Itu definisi FOB Shipping Point. Destination = beralih saat barang sampai tujuan.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 4</h4><p>Pada konsinyasi, agen (consignee) otomatis jadi pemilik barang yang dititipkan.</p></div>
-            <div class="flip-card-back mitos"><h4>❌ Mitos</h4><p>Hak milik tetap di tangan Consignor sampai barang terjual ke pihak ketiga.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 5</h4><p>Identifikasi Khusus cocok untuk persediaan mobil mewah atau barang antik.</p></div>
-            <div class="flip-card-back fakta"><h4>✅ Fakta</h4><p>Barang mahal & terbatas cocok pakai Identifikasi Khusus karena arus fisiknya unik per unit.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 6</h4><p>FIFO cenderung menghasilkan nilai persediaan akhir lebih tinggi di neraca.</p></div>
-            <div class="flip-card-back fakta"><h4>✅ Fakta</h4><p>Karena persediaan akhir dinilai harga beli terakhir yang umumnya lebih tinggi (inflasi).</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 7</h4><p>LCNRV menurunkan nilai persediaan jika barang rusak atau usang.</p></div>
-            <div class="flip-card-back fakta"><h4>✅ Fakta</h4><p>LCNRV/LOCOM mewajibkan pencatatan di nilai terendah antara biaya vs nilai realisasi bersih.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 8</h4><p>Trade Discount sama persis maknanya dengan Cash Discount.</p></div>
-            <div class="flip-card-back mitos"><h4>❌ Mitos</h4><p>Trade Discount = potongan kuantitas (rabat). Cash Discount = potongan karena bayar cepat.</p></div>
-          </div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ SIMULATOR BPP ============ -->
-    <section id="simBpp" class="section-target">
-      <div class="glass-card simulator" data-aos="fade-up">
-        <h2>🧮 Simulator Beban Pokok Penjualan</h2>
-        <p>Masukkan angka (dalam Rupiah, tanpa titik), dan lihat perhitungan BPP secara otomatis.</p>
-        <div class="sim-grid">
-          <div class="sim-field"><label>Persediaan Awal</label><input type="number" id="s_pawal" placeholder="cth: 5000000" value="5000000"></div>
-          <div class="sim-field"><label>Pembelian</label><input type="number" id="s_pembelian" placeholder="cth: 20000000" value="20000000"></div>
-          <div class="sim-field"><label>Biaya Angkut Pembelian</label><input type="number" id="s_angkut" placeholder="cth: 500000" value="500000"></div>
-          <div class="sim-field"><label>Retur Pembelian</label><input type="number" id="s_retur" placeholder="cth: 300000" value="300000"></div>
-          <div class="sim-field"><label>Potongan Pembelian</label><input type="number" id="s_potongan" placeholder="cth: 200000" value="200000"></div>
-          <div class="sim-field"><label>Persediaan Akhir</label><input type="number" id="s_pakhir" placeholder="cth: 4000000" value="4000000"></div>
-        </div>
-        <div class="sim-result">
-          <div class="sim-result-item"><div class="lbl">Pembelian Bersih</div><div class="val" id="r_pb">Rp 0</div></div>
-          <div class="sim-result-item"><div class="lbl">Barang Tersedia Dijual</div><div class="val" id="r_bt">Rp 0</div></div>
-          <div class="sim-result-item" style="grid-column:1/-1;background:rgba(16,185,129,.2)"><div class="lbl">Beban Pokok Penjualan (BPP)</div><div class="val" id="r_bpp" style="font-size:1.6rem">Rp 0</div></div>
-        </div>
-        <p style="font-size:.85rem;color:var(--muted);margin-top:14px"><em>Rumus: Pembelian Bersih = Pembelian + Angkut − Retur − Potongan. BPP = (Persediaan Awal + Pembelian Bersih) − Persediaan Akhir.</em></p>
-      </div>
-    </section>
-
-    <!-- ============ KUIS BAB 1 ============ -->
-    <section id="kuis1" class="section-target">
-      <div class="glass-card" data-aos="fade-up">
-        <h2>📝 Uji Kompetensi Bab 1 — Persediaan</h2>
-        <p>15 soal pilihan ganda. Jawab semua untuk melihat skor & grafik.</p>
-        <div id="quiz-app-1"></div>
-      </div>
-    </section>
-
-    <!-- ============ BAB 2 ============ -->
-    <section id="bab2" class="section-target">
-      <div class="glass-card" data-aos="fade-up">
-        <img class="section-hero" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1000&q=80" alt="Rapat bisnis" loading="lazy">
-        <h2>Bab 2: Ekuitas & Pendapatan</h2>
-        <p>Ekuitas (Modal) adalah hak kepemilikan atas aset perusahaan setelah dikurangi seluruh kewajiban. <strong>Ekuitas = Aset − Utang.</strong></p>
-
-        <h3>🏢 Bentuk Badan Usaha</h3>
-        <div class="accordion-item">
-          <button class="accordion-btn">1. Perusahaan Perorangan <span>▼</span></button>
-          <div class="accordion-content"><p>Dimiliki & dikelola satu orang. Tidak ada pemisahan modal pribadi & perusahaan. Tanggung jawab pemilik <strong>tidak terbatas</strong>.</p></div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-btn">2. Persekutuan / Firma <span>▼</span></button>
-          <div class="accordion-content"><p>Didirikan 2 orang atau lebih. Kerugian satu anggota ditanggung bersama (tanggung jawab tidak terbatas).</p></div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-btn">3. Commanditaire Vennotschap (CV) <span>▼</span></button>
-          <div class="accordion-content"><p><strong>Pesero Aktif</strong>: pengurus, tanggung jawab tak terbatas. <strong>Pesero Komanditer</strong>: pasif, tanggung jawab sebatas modal yang disetor.</p></div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-btn">4. Koperasi <span>▼</span></button>
-          <div class="accordion-content"><p>Asas kekeluargaan. Kekuasaan tertinggi di <strong>RAT (Rapat Anggota Tahunan)</strong>, 1 anggota 1 suara. Modal: Simpanan Pokok (sekali), Simpanan Wajib (rutin), Dana Cadangan, Hibah.</p></div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-btn">5. Perseroan Terbatas (PT) <span>▼</span></button>
-          <div class="accordion-content"><p>Badan hukum persekutuan modal. Modal dasar min. Rp 50 juta (min. 25% disetor). Ekuitas PT: Modal Disetor, Tambahan Modal Disetor (Agio/Disagio), Saldo Laba.</p></div>
-        </div>
-
-        <h3>📜 Organ PT</h3>
-        <div class="grid-cards">
-          <div class="mini-card"><h4>RUPS</h4><p>Pemegang kekuasaan tertinggi, menetapkan kebijakan & mengangkat Direksi/Komisaris.</p></div>
-          <div class="mini-card"><h4>Dewan Komisaris</h4><p>Mengawasi & menasihati Direksi.</p></div>
-          <div class="mini-card"><h4>Direksi</h4><p>Menjalankan operasional perusahaan sehari-hari.</p></div>
-        </div>
-
-        <h3>📊 Jenis Saham</h3>
-        <div class="grid-cards">
-          <div class="mini-card"><h4 style="color:var(--primary)">Saham Biasa</h4><p>Punya hak suara, menanggung risiko, tidak dijamin dividen rutin.</p></div>
-          <div class="mini-card"><h4 style="color:var(--warning)">Saham Preferen</h4><p>Hak istimewa dividen & likuidasi. Dividen persentase tetap dari nilai nominal.</p></div>
-        </div>
-
-        <div class="callout">
-          <strong>💡 Syarat Pembagian Dividen:</strong>
-          <ol style="margin:10px 0 0 0">
-            <li>Saldo laba mencukupi</li>
-            <li>Kas memadai</li>
-            <li>Tindakan formal Dewan Direksi</li>
-          </ol>
-        </div>
-
-        <h3>💰 Akuntansi Pendapatan & Beban (SAK ETAP)</h3>
-        <p><strong>Pendapatan:</strong> arus masuk bruto manfaat ekonomi yang menaikkan ekuitas (selain setoran modal). Diukur dengan Nilai Wajar.</p>
-        <p><strong>Beban:</strong> penurunan manfaat ekonomi yang menurunkan ekuitas (selain pembagian ke modal).</p>
-        <div class="table-responsive">
+      <div class="switch-content" id="sw-perpetual">
+        <div class="tbl-wrap">
           <table>
-            <tr><th>Jenis Transaksi</th><th>Pengakuan Pendapatan (Akrual)</th></tr>
-            <tr><td>Penjualan Barang</td><td>Saat penyerahan barang ke pembeli</td></tr>
-            <tr><td>Penjualan Jasa</td><td>Saat jasa selesai & dapat ditagih</td></tr>
-            <tr><td>Izin Pakai Aset (Bunga, Sewa)</td><td>Sejalan dengan berlalunya waktu</td></tr>
+            <tr><th>Karakteristik</th><th>Sistem Perpetual</th></tr>
+            <tr><td>Mutasi persediaan</td><td>Dicatat real-time setiap transaksi</td></tr>
+            <tr><td>Beban Pokok Penjualan</td><td>Diketahui setiap ada penjualan</td></tr>
+            <tr><td>Pencatatan pembelian</td><td>Langsung ke akun "Persediaan"</td></tr>
+            <tr><td>Cocok untuk</td><td>Usaha besar, barang bernilai tinggi</td></tr>
           </table>
         </div>
-        <p><em>*Standar Indonesia menggunakan <strong>Dasar Akrual</strong>, bukan Cash Basis.</em></p>
-
-        <h3>✅ Ringkasan Bab 2</h3>
-        <ul>
-          <li>Ekuitas = hak pemilik atas aset setelah dikurangi utang.</li>
-          <li>Badan usaha: Perorangan, Firma, CV, Koperasi, PT — beda struktur tanggung jawab.</li>
-          <li>PT: Saham Biasa vs Preferen. Transaksi saham bisa muncul Agio/Disagio.</li>
-          <li>Organ PT: RUPS, Dewan Komisaris, Direksi.</li>
-          <li>Pendapatan (SAK ETAP) diukur Nilai Wajar, diakui dengan dasar Akrual.</li>
-        </ul>
       </div>
 
-      <div class="glass-card" data-aos="fade-up">
-        <h3>✅ Refleksi Bab 2</h3>
-        <label class="checklist-item"><input type="checkbox" data-refl="b2-1"><span>Saya paham perbedaan Firma, CV, PT, Koperasi.</span></label>
-        <label class="checklist-item"><input type="checkbox" data-refl="b2-2"><span>Saya tahu beda Saham Biasa & Preferen.</span></label>
-        <label class="checklist-item"><input type="checkbox" data-refl="b2-3"><span>Saya paham aturan dividen & Agio/Disagio.</span></label>
-        <label class="checklist-item"><input type="checkbox" data-refl="b2-4"><span>Saya bisa bedakan Akrual vs Cash Basis.</span></label>
+      <div class="callout">
+        <strong>💡 Rumus Beban Pokok Persediaan (Sistem Periodik):</strong><br>
+        Persediaan Awal + Pembelian Bersih = <em>Barang Tersedia Untuk Dijual</em><br>
+        Barang Tersedia Untuk Dijual − Persediaan Akhir = <strong>Beban Pokok Penjualan</strong>
       </div>
-    </section>
 
-    <!-- ============ MITOS/FAKTA BAB 2 ============ -->
-    <section id="mitos2" class="section-target">
-      <div class="glass-card" data-aos="fade-up">
-        <h2>🤔 Mitos atau Fakta? — Bab 2</h2>
-        <p>Klik tiap kartu untuk melihat jawabannya!</p>
-        <div class="grid-cards">
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 1</h4><p>Pada Perusahaan Perorangan, kekayaan pribadi dipisahkan tegas dari kekayaan perusahaan.</p></div>
-            <div class="flip-card-back mitos"><h4>❌ Mitos</h4><p>Tidak ada pemisahan modal. Tanggung jawab pemilik tidak terbatas hingga harta pribadi.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 2</h4><p>RAT adalah pemegang kekuasaan tertinggi dalam Koperasi.</p></div>
-            <div class="flip-card-back fakta"><h4>✅ Fakta</h4><p>Koperasi dikelola secara demokratis, RAT memegang wewenang tertinggi.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 3</h4><p>Simpanan Pokok Koperasi bisa ditarik kapan saja.</p></div>
-            <div class="flip-card-back mitos"><h4>❌ Mitos</h4><p>Tidak bisa ditarik selama yang bersangkutan masih menjadi anggota.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 4</h4><p>Pemegang Saham Preferen dijamin hak istimewa dividen dibanding saham biasa.</p></div>
-            <div class="flip-card-back fakta"><h4>✅ Fakta</h4><p>Saham preferen selalu dapat dividen persentase tertentu sebelum saham biasa.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 5</h4><p>SAK Indonesia mengakui pendapatan hanya saat kas diterima (Cash Basis).</p></div>
-            <div class="flip-card-back mitos"><h4>❌ Mitos</h4><p>Indonesia pakai Dasar Akrual — diakui saat transaksi/penyerahan terjadi.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 6</h4><p>Modal dasar PT minimal Rp 50.000.000 dengan syarat 25% disetor.</p></div>
-            <div class="flip-card-back fakta"><h4>✅ Fakta</h4><p>Sesuai UU No. 40 Tahun 2007, modal dasar PT min Rp 50 juta & 25% disetor penuh.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 7</h4><p>PT Tertutup = PT yang sahamnya diperjualbelikan ke publik di bursa.</p></div>
-            <div class="flip-card-back mitos"><h4>❌ Mitos</h4><p>Itu definisi PT Terbuka (Tbk). PT Tertutup sahamnya dipegang pihak tertentu saja.</p></div>
-          </div></div>
-          <div class="flip-card" data-flip><div class="flip-card-inner">
-            <div class="flip-card-front"><h4>Pernyataan 8</h4><p>Penjualan saham di atas nilai nominal memunculkan akun Agio Saham.</p></div>
-            <div class="flip-card-back fakta"><h4>✅ Fakta</h4><p>Selisih lebih harga jual vs nominal dicatat sebagai Tambahan Modal Disetor (Agio Saham).</p></div>
-          </div></div>
+      <h3>🚚 FOB: Kapan Kepemilikan Pindah?</h3>
+      <div class="fob-visual">
+        <div class="switcher">
+          <button class="active" data-fob="shipping">🚚 FOB Shipping Point</button>
+          <button data-fob="destination">🏬 FOB Destination</button>
         </div>
-      </div>
-    </section>
-
-    <!-- ============ SIMULATOR SAHAM ============ -->
-    <section id="simSaham" class="section-target">
-      <div class="glass-card simulator" data-aos="fade-up">
-        <h2>🏢 Simulator Ekuitas & Saham</h2>
-        <p>Hitung ekuitas dan transaksi saham (Modal Saham + Agio/Disagio) secara otomatis.</p>
-        <div class="sim-grid">
-          <div class="sim-field"><label>Total Aset (Rp)</label><input type="number" id="s_aset" value="500000000"></div>
-          <div class="sim-field"><label>Total Utang (Rp)</label><input type="number" id="s_utang" value="200000000"></div>
-          <div class="sim-field"><label>Jumlah Saham Diterbitkan</label><input type="number" id="s_jumlah" value="10000"></div>
-          <div class="sim-field"><label>Nilai Nominal per Saham (Rp)</label><input type="number" id="s_nominal" value="5000"></div>
-          <div class="sim-field"><label>Harga Jual per Saham (Rp)</label><input type="number" id="s_harga" value="5500"></div>
-          <div class="sim-field"><label>Saldo Laba (Rp, opsional)</label><input type="number" id="s_laba" value="50000000"></div>
+        <div class="fob-track">
+          <div class="fob-line"></div>
+          <div class="fob-stop" id="fobGudang"><div class="icon">🏭</div><div class="lbl">Gudang Penjual</div></div>
+          <div class="fob-stop" id="fobTransit"><div class="icon">🚚</div><div class="lbl">Dalam Perjalanan</div></div>
+          <div class="fob-stop" id="fobTujuan"><div class="icon">🏬</div><div class="lbl">Gudang Pembeli</div></div>
         </div>
-        <div class="sim-result">
-          <div class="sim-result-item"><div class="lbl">Ekuitas (Aset − Utang)</div><div class="val" id="r_ekuitas">Rp 0</div></div>
-          <div class="sim-result-item"><div class="lbl">Modal Saham (Nominal)</div><div class="val" id="r_modal">Rp 0</div></div>
-          <div class="sim-result-item"><div class="lbl">Agio / Disagio Saham</div><div class="val" id="r_agio">Rp 0</div></div>
-          <div class="sim-result-item" style="background:rgba(6,182,212,.15)"><div class="lbl">Total Ekuitas + Laba</div><div class="val" id="r_total" style="color:var(--accent)">Rp 0</div></div>
+        <div class="fob-info" id="fobInfo"></div>
+      </div>
+
+      <h3>🚚 Penentuan Kepemilikan Barang</h3>
+      <div class="grid-cards">
+        <div class="mini-card"><h4>FOB Shipping Point</h4><p>Kepemilikan beralih ke pembeli sejak barang keluar dari gudang penjual (in transit).</p></div>
+        <div class="mini-card"><h4>FOB Destination</h4><p>Kepemilikan baru beralih setelah barang sampai di tujuan pembeli.</p></div>
+        <div class="mini-card"><h4>Konsinyasi</h4><p>Consignor (pemilik) menitipkan ke Consignee (agen). Hak milik tetap pada Consignor sampai barang terjual ke pihak ketiga.</p></div>
+      </div>
+
+      <h3>📊 Metode Penilaian Beban Pokok</h3>
+      <div class="timeline">
+        <div class="tl-item"><h4>FIFO (First In First Out)</h4><p>Asumsi barang pertama masuk, pertama dijual. Persediaan akhir dinilai dengan harga beli terakhir — cenderung tinggi di neraca saat inflasi.</p></div>
+        <div class="tl-item"><h4>Average (Rata-rata)</h4><p>Periodik: rata-rata sederhana. Perpetual: rata-rata bergerak (harga rata-rata diperbarui tiap mutasi).</p></div>
+        <div class="tl-item"><h4>Identifikasi Khusus</h4><p>Tiap barang dilacak per unit. Cocok untuk barang mahal & terbatas (mobil mewah, intan, barang antik).</p></div>
+      </div>
+
+      <div class="callout warning">
+        <strong>⚠️ LOCOM / LCNRV</strong><br>
+        Lower of Cost or Market / Lower of Cost and Net Realizable Value: persediaan dicatat pada nilai <strong>terendah</strong> antara biaya perolehan vs nilai pasar. Berlaku jika barang rusak, usang, atau harga pasar turun.
+      </div>
+
+      <h3>✅ Refleksi Bab 1</h3>
+      <label class="chk"><input type="checkbox" data-refl="b1-1"><span>Saya mengerti definisi & jenis persediaan.</span></label>
+      <label class="chk"><input type="checkbox" data-refl="b1-2"><span>Saya bisa bedakan sistem Periodik & Perpetual.</span></label>
+      <label class="chk"><input type="checkbox" data-refl="b1-3"><span>Saya paham FOB Shipping Point vs Destination.</span></label>
+      <label class="chk"><input type="checkbox" data-refl="b1-4"><span>Saya paham FIFO, Average, Identifikasi Khusus.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ MITOS B1 ============ -->
+  <section id="mitos1" class="sec-anchor">
+    <div class="glass" data-aos="fade-up">
+      <h2>🤔 Mitos atau Fakta? — Bab 1</h2>
+      <p>Klik tiap kartu untuk lihat jawabannya. <strong>+2 XP</strong> setiap kartu dibuka!</p>
+      <div class="grid-cards">
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 1</h4><p>Persediaan pada perusahaan jasa biasanya berupa perlengkapan (supplies).</p></div>
+          <div class="flip-back fakta"><h4>✅ Fakta</h4><p>Perusahaan jasa tidak menjual barang berwujud, jadi persediaannya berupa perlengkapan operasional.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 2</h4><p>Sistem periodik mencatat mutasi persediaan langsung setiap transaksi.</p></div>
+          <div class="flip-back mitos"><h4>❌ Mitos</h4><p>Yang mencatat mutasi langsung adalah sistem Perpetual, bukan Periodik.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 3</h4><p>FOB Destination berarti barang sudah jadi milik pembeli sejak dikirim dari gudang penjual.</p></div>
+          <div class="flip-back mitos"><h4>❌ Mitos</h4><p>Itu definisi FOB Shipping Point. Destination = beralih saat barang sampai tujuan.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 4</h4><p>Pada konsinyasi, agen (consignee) otomatis jadi pemilik barang yang dititipkan.</p></div>
+          <div class="flip-back mitos"><h4>❌ Mitos</h4><p>Hak milik tetap di tangan Consignor sampai barang terjual ke pihak ketiga.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 5</h4><p>Identifikasi Khusus cocok untuk persediaan mobil mewah atau barang antik.</p></div>
+          <div class="flip-back fakta"><h4>✅ Fakta</h4><p>Barang mahal & terbatas cocok pakai Identifikasi Khusus karena arus fisiknya unik per unit.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 6</h4><p>FIFO cenderung menghasilkan nilai persediaan akhir lebih tinggi di neraca.</p></div>
+          <div class="flip-back fakta"><h4>✅ Fakta</h4><p>Karena persediaan akhir dinilai harga beli terakhir yang umumnya lebih tinggi (inflasi).</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 7</h4><p>LCNRV menurunkan nilai persediaan jika barang rusak atau usang.</p></div>
+          <div class="flip-back fakta"><h4>✅ Fakta</h4><p>LCNRV/LOCOM mewajibkan pencatatan di nilai terendah antara biaya vs nilai realisasi bersih.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 8</h4><p>Trade Discount sama persis maknanya dengan Cash Discount.</p></div>
+          <div class="flip-back mitos"><h4>❌ Mitos</h4><p>Trade Discount = rabat kuantitas. Cash Discount = potongan karena bayar cepat.</p></div>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIMULATOR BPP ============ -->
+  <section id="simBpp" class="sec-anchor">
+    <div class="glass sim" data-aos="fade-up">
+      <h2>🧮 Simulator Beban Pokok Penjualan</h2>
+      <p>Ubah angka, lihat hasilnya langsung. Coba bandingkan skenario FIFO vs Average!</p>
+      <div class="sim-grid">
+        <div class="sim-field"><label>Persediaan Awal</label><input type="number" id="s_pawal" value="5000000"></div>
+        <div class="sim-field"><label>Pembelian</label><input type="number" id="s_pembelian" value="20000000"></div>
+        <div class="sim-field"><label>Biaya Angkut Pembelian</label><input type="number" id="s_angkut" value="500000"></div>
+        <div class="sim-field"><label>Retur Pembelian</label><input type="number" id="s_retur" value="300000"></div>
+        <div class="sim-field"><label>Potongan Pembelian</label><input type="number" id="s_potongan" value="200000"></div>
+        <div class="sim-field"><label>Persediaan Akhir</label><input type="number" id="s_pakhir" value="4000000"></div>
+      </div>
+      <div class="sim-res">
+        <div class="sim-res-item"><div class="lbl">Pembelian Bersih</div><div class="val" id="r_pb">Rp 0</div></div>
+        <div class="sim-res-item"><div class="lbl">Barang Tersedia Dijual</div><div class="val" id="r_bt">Rp 0</div></div>
+        <div class="sim-res-item hi"><div class="lbl">Beban Pokok Penjualan (BPP)</div><div class="val" id="r_bpp">Rp 0</div></div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:14px"><em>Pembelian Bersih = Pembelian + Angkut − Retur − Potongan. BPP = (Persediaan Awal + Pembelian Bersih) − Persediaan Akhir.</em></p>
+    </div>
+  </section>
+
+  <!-- ============ KUIS 1 ============ -->
+  <section id="kuis1" class="sec-anchor">
+    <div class="glass" data-aos="fade-up">
+      <h2>📝 Uji Kompetensi Bab 1 — Persediaan</h2>
+      <p>15 soal pilihan ganda. Setiap jawaban benar <strong>+10 XP</strong>. Skor ≥ 70% → badge & confetti! 🎉</p>
+      <div id="quiz-app-1"></div>
+    </div>
+  </section>
+
+  <!-- ============ BAB 2 ============ -->
+  <section id="bab2" class="sec-anchor">
+    <div class="glass" data-aos="fade-up">
+      <img class="section-hero" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1000&q=80" alt="Rapat bisnis" loading="lazy">
+      <h2>Bab 2: Ekuitas & Pendapatan</h2>
+      <p>Ekuitas (Modal) adalah hak kepemilikan atas aset perusahaan setelah dikurangi seluruh kewajiban. <strong>Ekuitas = Aset − Utang.</strong></p>
+
+      <h3>🏢 Bentuk Badan Usaha</h3>
+      <div class="acc"><button class="acc-btn">1. Perusahaan Perorangan <span>▼</span></button>
+        <div class="acc-body"><p>Dimiliki & dikelola satu orang. Tidak ada pemisahan modal pribadi & perusahaan. Tanggung jawab pemilik <strong>tidak terbatas</strong>.</p></div></div>
+      <div class="acc"><button class="acc-btn">2. Persekutuan / Firma <span>▼</span></button>
+        <div class="acc-body"><p>Didirikan 2 orang atau lebih. Kerugian satu anggota ditanggung bersama (tanggung jawab tidak terbatas).</p></div></div>
+      <div class="acc"><button class="acc-btn">3. Commanditaire Vennotschap (CV) <span>▼</span></button>
+        <div class="acc-body"><p><strong>Pesero Aktif</strong>: pengurus, tanggung jawab tak terbatas. <strong>Pesero Komanditer</strong>: pasif, tanggung jawab sebatas modal yang disetor.</p></div></div>
+      <div class="acc"><button class="acc-btn">4. Koperasi <span>▼</span></button>
+        <div class="acc-body"><p>Asas kekeluargaan. Kekuasaan tertinggi di <strong>RAT (Rapat Anggota Tahunan)</strong>, 1 anggota 1 suara. Modal: Simpanan Pokok (sekali), Simpanan Wajib (rutin), Dana Cadangan, Hibah.</p></div></div>
+      <div class="acc"><button class="acc-btn">5. Perseroan Terbatas (PT) <span>▼</span></button>
+        <div class="acc-body"><p>Badan hukum persekutuan modal. Modal dasar min. Rp 50 juta (min. 25% disetor). Ekuitas PT: Modal Disetor, Tambahan Modal Disetor (Agio/Disagio), Saldo Laba.</p></div></div>
+
+      <h3>📜 Organ PT</h3>
+      <div class="grid-cards">
+        <div class="mini-card"><span class="emoji">👑</span><h4>RUPS</h4><p>Pemegang kekuasaan tertinggi, menetapkan kebijakan & mengangkat Direksi/Komisaris.</p></div>
+        <div class="mini-card"><span class="emoji">🛡️</span><h4>Dewan Komisaris</h4><p>Mengawasi & menasihati Direksi.</p></div>
+        <div class="mini-card"><span class="emoji">⚙️</span><h4>Direksi</h4><p>Menjalankan operasional perusahaan sehari-hari.</p></div>
+      </div>
+
+      <h3>📊 Jenis Saham</h3>
+      <div class="grid-cards">
+        <div class="mini-card"><span class="emoji">📗</span><h4>Saham Biasa</h4><p>Punya hak suara, menanggung risiko, tidak dijamin dividen rutin.</p></div>
+        <div class="mini-card"><span class="emoji">💎</span><h4>Saham Preferen</h4><p>Hak istimewa dividen & likuidasi. Dividen persentase tetap dari nilai nominal.</p></div>
+      </div>
+
+      <div class="callout">
+        <strong>💡 Syarat Pembagian Dividen:</strong>
+        <ol style="margin:10px 0 0 0">
+          <li>Saldo laba mencukupi</li>
+          <li>Kas memadai</li>
+          <li>Tindakan formal Dewan Direksi</li>
+        </ol>
+      </div>
+
+      <h3>💰 Akuntansi Pendapatan & Beban (SAK ETAP)</h3>
+      <p><strong>Pendapatan:</strong> arus masuk bruto manfaat ekonomi yang menaikkan ekuitas (selain setoran modal). Diukur dengan Nilai Wajar.</p>
+      <p><strong>Beban:</strong> penurunan manfaat ekonomi yang menurunkan ekuitas (selain pembagian ke modal).</p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Jenis Transaksi</th><th>Pengakuan Pendapatan (Akrual)</th></tr>
+          <tr><td>Penjualan Barang</td><td>Saat penyerahan barang ke pembeli</td></tr>
+          <tr><td>Penjualan Jasa</td><td>Saat jasa selesai & dapat ditagih</td></tr>
+          <tr><td>Izin Pakai Aset (Bunga, Sewa)</td><td>Sejalan dengan berlalunya waktu</td></tr>
+        </table>
+      </div>
+      <p><em>*Standar Indonesia menggunakan <strong>Dasar Akrual</strong>, bukan Cash Basis.</em></p>
+
+      <h3>✅ Refleksi Bab 2</h3>
+      <label class="chk"><input type="checkbox" data-refl="b2-1"><span>Saya paham perbedaan Firma, CV, PT, Koperasi.</span></label>
+      <label class="chk"><input type="checkbox" data-refl="b2-2"><span>Saya tahu beda Saham Biasa & Preferen.</span></label>
+      <label class="chk"><input type="checkbox" data-refl="b2-3"><span>Saya paham aturan dividen & Agio/Disagio.</span></label>
+      <label class="chk"><input type="checkbox" data-refl="b2-4"><span>Saya bisa bedakan Akrual vs Cash Basis.</span></label>
+    </div>
+  </section>
+
+  <!-- ============ MITOS B2 ============ -->
+  <section id="mitos2" class="sec-anchor">
+    <div class="glass" data-aos="fade-up">
+      <h2>🤔 Mitos atau Fakta? — Bab 2</h2>
+      <p>Klik tiap kartu untuk lihat jawabannya. <strong>+2 XP</strong> per kartu!</p>
+      <div class="grid-cards">
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 1</h4><p>Pada Perusahaan Perorangan, kekayaan pribadi dipisahkan tegas dari kekayaan perusahaan.</p></div>
+          <div class="flip-back mitos"><h4>❌ Mitos</h4><p>Tidak ada pemisahan modal. Tanggung jawab pemilik tidak terbatas hingga harta pribadi.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 2</h4><p>RAT adalah pemegang kekuasaan tertinggi dalam Koperasi.</p></div>
+          <div class="flip-back fakta"><h4>✅ Fakta</h4><p>Koperasi dikelola secara demokratis, RAT memegang wewenang tertinggi.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 3</h4><p>Simpanan Pokok Koperasi bisa ditarik kapan saja.</p></div>
+          <div class="flip-back mitos"><h4>❌ Mitos</h4><p>Tidak bisa ditarik selama yang bersangkutan masih menjadi anggota.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 4</h4><p>Pemegang Saham Preferen dijamin hak istimewa dividen dibanding saham biasa.</p></div>
+          <div class="flip-back fakta"><h4>✅ Fakta</h4><p>Saham preferen selalu dapat dividen persentase tertentu sebelum saham biasa.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 5</h4><p>SAK Indonesia mengakui pendapatan hanya saat kas diterima (Cash Basis).</p></div>
+          <div class="flip-back mitos"><h4>❌ Mitos</h4><p>Indonesia pakai Dasar Akrual — diakui saat transaksi/penyerahan terjadi.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 6</h4><p>Modal dasar PT minimal Rp 50.000.000 dengan syarat 25% disetor.</p></div>
+          <div class="flip-back fakta"><h4>✅ Fakta</h4><p>Sesuai UU No. 40 Tahun 2007, modal dasar PT min Rp 50 juta & 25% disetor penuh.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 7</h4><p>PT Tertutup = PT yang sahamnya diperjualbelikan ke publik di bursa.</p></div>
+          <div class="flip-back mitos"><h4>❌ Mitos</h4><p>Itu definisi PT Terbuka (Tbk). PT Tertutup sahamnya dipegang pihak tertentu saja.</p></div>
+        </div></div>
+        <div class="flip-card" data-flip><div class="flip-inner">
+          <div class="flip-front"><h4>Pernyataan 8</h4><p>Penjualan saham di atas nilai nominal memunculkan akun Agio Saham.</p></div>
+          <div class="flip-back fakta"><h4>✅ Fakta</h4><p>Selisih lebih harga jual vs nominal dicatat sebagai Tambahan Modal Disetor (Agio Saham).</p></div>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIM SAHAM ============ -->
+  <section id="simSaham" class="sec-anchor">
+    <div class="glass sim" data-aos="fade-up">
+      <h2>🏢 Simulator Ekuitas & Saham</h2>
+      <p>Ubah angka — lihat perubahan ekuitas dan Agio/Disagio secara real-time.</p>
+      <div class="sim-grid">
+        <div class="sim-field"><label>Total Aset (Rp)</label><input type="number" id="s_aset" value="500000000"></div>
+        <div class="sim-field"><label>Total Utang (Rp)</label><input type="number" id="s_utang" value="200000000"></div>
+        <div class="sim-field"><label>Jumlah Saham Diterbitkan</label><input type="number" id="s_jumlah" value="10000"></div>
+        <div class="sim-field"><label>Nilai Nominal per Saham (Rp)</label><input type="number" id="s_nominal" value="5000"></div>
+        <div class="sim-field"><label>Harga Jual per Saham (Rp)</label><input type="number" id="s_harga" value="5500"></div>
+        <div class="sim-field"><label>Saldo Laba (Rp)</label><input type="number" id="s_laba" value="50000000"></div>
+      </div>
+      <div class="sim-res">
+        <div class="sim-res-item"><div class="lbl">Ekuitas (Aset − Utang)</div><div class="val" id="r_ekuitas">Rp 0</div></div>
+        <div class="sim-res-item"><div class="lbl">Modal Saham (Nominal)</div><div class="val" id="r_modal">Rp 0</div></div>
+        <div class="sim-res-item"><div class="lbl">Agio / Disagio Saham</div><div class="val" id="r_agio">Rp 0</div></div>
+        <div class="sim-res-item"><div class="lbl">Total Ekuitas + Laba</div><div class="val" id="r_total" style="color:var(--accent)">Rp 0</div></div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:14px"><em>Agio muncul jika harga jual &gt; nominal. Disagio muncul jika harga jual &lt; nominal.</em></p>
+    </div>
+  </section>
+
+  <!-- ============ KUIS 2 ============ -->
+  <section id="kuis2" class="sec-anchor">
+    <div class="glass" data-aos="fade-up">
+      <h2>📝 Uji Kompetensi Bab 2 — Ekuitas & Pendapatan</h2>
+      <p>15 soal pilihan ganda. Setiap jawaban benar <strong>+10 XP</strong>.</p>
+      <div id="quiz-app-2"></div>
+    </div>
+  </section>
+
+  <!-- ============ BADGES ============ -->
+  <section id="badges" class="sec-anchor">
+    <div class="glass" data-aos="fade-up">
+      <h2>🏅 Koleksi Badge Kamu</h2>
+      <p>Kumpulkan semua badge dengan menyelesaikan berbagai aktivitas!</p>
+      <div class="badge-grid" id="badgeGrid">
+        <div class="badge" data-badge="starter"><div class="ic">🚀</div><div class="nm">Starter</div><div class="ds">Buka web</div></div>
+        <div class="badge" data-badge="reader1"><div class="ic">📖</div><div class="nm">Pembaca B1</div><div class="ds">Baca Bab 1</div></div>
+        <div class="badge" data-badge="reader2"><div class="ic">📗</div><div class="nm">Pembaca B2</div><div class="ds">Baca Bab 2</div></div>
+        <div class="badge" data-badge="flipper"><div class="ic">🃏</div><div class="nm">Flipper</div><div class="ds">Buka 8 kartu</div></div>
+        <div class="badge" data-badge="dnd"><div class="ic">🎯</div><div class="nm">Klasifikator</div><div class="ds">Selesai drag&drop</div></div>
+        <div class="badge" data-badge="simuser"><div class="ic">🧮</div><div class="nm">Simulator</div><div class="ds">Pakai 1 simulator</div></div>
+        <div class="badge" data-badge="quiz1"><div class="ic">📝</div><div class="nm">Lulus Kuis 1</div><div class="ds">Skor ≥ 70%</div></div>
+        <div class="badge" data-badge="quiz2"><div class="ic">✍️</div><div class="nm">Lulus Kuis 2</div><div class="ds">Skor ≥ 70%</div></div>
+        <div class="badge" data-badge="perfect"><div class="ic">💯</div><div class="nm">Perfect!</div><div class="ds">Skor 100% di 1 kuis</div></div>
+        <div class="badge" data-badge="master"><div class="ic">🏆</div><div class="nm">Master</div><div class="ds">Lulus semua kuis</div></div>
+        <div class="badge" data-badge="certified"><div class="ic">🎓</div><div class="nm">Certified</div><div class="ds">Unduh sertifikat</div></div>
+        <div class="badge" data-badge="lvl5"><div class="ic">⭐</div><div class="nm">Level 5</div><div class="ds">Capai Lv 5</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PENUTUP & SERTIFIKAT ============ -->
+  <section id="penutup" class="sec-anchor">
+    <div class="glass" data-aos="fade-up" style="text-align:center;padding:44px 24px">
+      <div style="font-size:5rem;margin-bottom:10px;animation:bounce 2s infinite">🏆</div>
+      <h2 style="display:block;margin:0 auto 12px">Selamat!</h2>
+      <p style="font-size:1.1rem">Kamu telah menyelesaikan seluruh materi Master Class.</p>
+      <p style="font-size:1.4rem;font-weight:900;color:var(--success)">Progress: <span id="progressText">0%</span></p>
+      <button class="btn" id="celebrateBtn" style="margin-top:12px">🎉 Rayakan!</button>
+    </div>
+
+    <div class="glass" data-aos="fade-up">
+      <div class="cert">
+        <h2>🎓 Sertifikat Penyelesaian</h2>
+        <p style="color:var(--muted);margin:0;font-size:.92rem">Master Class Interaktif Akuntansi</p>
+        <p style="color:var(--muted);margin:4px 0 0;font-size:.92rem">Persediaan, Ekuitas & Pendapatan</p>
+        <input class="cert-input" id="certName" placeholder="Tulis nama kamu..." maxlength="40">
+        <div class="cert-name" id="certNameDisplay">[ Nama Kamu ]</div>
+        <div class="cert-score-grid">
+          <div><div class="lbl">Kuis Bab 1</div><div class="val" id="certQ1">0/15</div></div>
+          <div><div class="lbl">Kuis Bab 2</div><div class="val" id="certQ2">0/15</div></div>
+          <div><div class="lbl">Total</div><div class="val" id="certTotal">0/30</div></div>
         </div>
-        <p style="font-size:.85rem;color:var(--muted);margin-top:14px"><em>Agio muncul jika harga jual &gt; nominal. Disagio muncul jika harga jual &lt; nominal.</em></p>
+        <button class="btn" id="downloadCert" style="margin-top:18px">📥 Unduh Sertifikat</button>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ============ KUIS BAB 2 ============ -->
-    <section id="kuis2" class="section-target">
-      <div class="glass-card" data-aos="fade-up">
-        <h2>📝 Uji Kompetensi Bab 2 — Ekuitas & Pendapatan</h2>
-        <p>15 soal pilihan ganda. Jawab semua untuk melihat skor & grafik.</p>
-        <div id="quiz-app-2"></div>
-      </div>
-    </section>
+  <!-- FOOTER -->
+  <footer>
+    <div class="wm">🏆 Master Class Interaktif Akuntansi</div>
+    <p style="margin:6px 0">Dibuat dengan ❤️ untuk pembelajaran akuntansi yang engaging.</p>
+    <p style="margin:10px 0 0;font-size:.86rem">
+      © <span id="year"></span> — Dibuat oleh 
+      <a href="https://www.linkedin.com/in/firhan-fahamzha/" target="_blank" rel="noopener">Firhan Fahamzha</a>
+    </p>
+  </footer>
 
-    <!-- ============ PENUTUP ============ -->
-    <section id="penutup" class="section-target">
-      <div class="glass-card" data-aos="fade-up" style="text-align:center;padding:50px 26px">
-        <div style="font-size:5rem;margin-bottom:14px;animation:bounce 2s infinite">🏆</div>
-        <h2 style="display:block;margin:0 auto 14px">Selamat!</h2>
-        <p style="font-size:1.15rem">Kamu telah menyelesaikan seluruh materi Master Class.</p>
-        <p style="font-size:1.5rem;font-weight:800;color:var(--success)">Progress: <span id="progressText">0%</span></p>
-        <div style="margin:20px auto;max-width:500px">
-          <canvas id="overallChart" width="300" height="300"></canvas>
-        </div>
-        <button class="btn" id="celebrateBtn" style="margin-top:14px">🎉 Rayakan!</button>
-      </div>
+</main>
 
-      <div class="glass-card" data-aos="fade-up">
-        <div class="certificate">
-          <h2>🎓 Sertifikat Penyelesaian</h2>
-          <p style="color:var(--muted);margin:0">Master Class Interaktif Akuntansi</p>
-          <p style="color:var(--muted);margin:6px 0 0">Persediaan, Ekuitas & Pendapatan</p>
-          <input class="cert-input" id="certName" placeholder="Tulis nama kamu..." maxlength="40">
-          <div class="cert-name" id="certNameDisplay">[ Nama Kamu ]</div>
-          <p style="font-size:1.1rem;font-weight:700">Skor Kuis Bab 1: <span id="certQ1" style="color:var(--primary)">0/15</span></p>
-          <p style="font-size:1.1rem;font-weight:700">Skor Kuis Bab 2: <span id="certQ2" style="color:var(--primary)">0/15</span></p>
-          <p style="font-size:1.1rem;font-weight:700;margin-top:14px">Total Skor: <span id="certTotal" style="color:var(--success);font-size:1.4rem">0/30</span></p>
-          <button class="btn" id="downloadCert" style="margin-top:20px">📥 Unduh Sertifikat</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-      <div class="watermark">🏆 Master Class Interaktif Akuntansi</div>
-      <p>Dibuat dengan ❤️ untuk pembelajaran akuntansi yang engaging.</p>
-      <p style="font-size:.82rem;opacity:.7">© <span id="year"></span> — Persediaan, Ekuitas & Pendapatan</p>
-    </footer>
-
-  </main>
-</div>
-
-<!-- FLOATING CONTROLS -->
-<div class="floating-controls">
+<div class="fc">
   <button class="fab" id="fabTop" title="Ke Atas">⬆</button>
 </div>
 
-<!-- LIBRARIES -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-/* ================= 1. LOADER ================= */
+/* ========== LOADER ========== */
 const loader = document.getElementById('loader');
 const loaderFill = document.getElementById('loaderFill');
-let loadPct = 0;
-const loadInt = setInterval(() => {
-  loadPct += Math.random() * 18 + 6;
-  if (loadPct >= 100) { loadPct = 100; clearInterval(loadInt);
-    setTimeout(() => loader.classList.add('hide'), 350);
-  }
-  loaderFill.style.width = loadPct + '%';
+let lp = 0;
+const li = setInterval(() => {
+  lp += Math.random() * 18 + 6;
+  if (lp >= 100) { lp = 100; clearInterval(li); setTimeout(()=>loader.classList.add('hide'), 350); }
+  loaderFill.style.width = lp + '%';
 }, 180);
 
-/* ================= 2. AUDIO ================= */
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-let audioCtx = null;
+/* ========== AUDIO ========== */
+const AC = window.AudioContext || window.webkitAudioContext;
+let ac = null;
 let muted = localStorage.getItem('mc_muted') === 'true';
-
-function initAudio() {
-  if (!audioCtx) audioCtx = new AudioCtx();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
+function initAudio(){ if(!ac) ac = new AC(); if(ac.state==='suspended') ac.resume(); }
+function beep(f,d,t='sine',v=0.08){
+  if(muted) return;
+  try{ initAudio();
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.type=t; o.frequency.value=f; g.gain.value=v;
+    o.connect(g); g.connect(ac.destination); o.start();
+    g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime+d);
+    o.stop(ac.currentTime+d);
+  }catch(e){}
 }
-function beep(freq, dur, type='sine', vol=0.08) {
-  if (muted) return;
-  try {
-    initAudio();
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.type = type; o.frequency.value = freq;
-    g.gain.value = vol;
-    o.connect(g); g.connect(audioCtx.destination);
-    o.start();
-    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-    o.stop(audioCtx.currentTime + dur);
-  } catch(e) {}
-}
-const soundClick = () => beep(620, 0.06, 'triangle', 0.05);
-const soundCorrect = () => { beep(523,0.1); setTimeout(()=>beep(659,0.1),90); setTimeout(()=>beep(784,0.15),180); };
-const soundWrong = () => { beep(220,0.14,'sawtooth',0.07); setTimeout(()=>beep(165,0.2,'sawtooth',0.07),110); };
-const soundPerfect = () => [523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,0.14,'triangle',0.09), i*110));
-const soundDrop = () => beep(400, 0.08, 'sine', 0.05);
+const sClick=()=>beep(620,.06,'triangle',.05);
+const sCorrect=()=>{beep(523,.1);setTimeout(()=>beep(659,.1),90);setTimeout(()=>beep(784,.15),180)};
+const sWrong=()=>{beep(220,.14,'sawtooth',.07);setTimeout(()=>beep(165,.2,'sawtooth',.07),110)};
+const sPerfect=()=>[523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.14,'triangle',.09),i*110));
+const sBadge=()=>{beep(880,.12);setTimeout(()=>beep(1175,.2),110)};
 
 const muteBtn = document.getElementById('muteBtn');
-function updateMuteIcon() { muteBtn.textContent = muted ? '🔇' : '🔊'; }
-updateMuteIcon();
-muteBtn.addEventListener('click', () => {
-  muted = !muted;
-  localStorage.setItem('mc_muted', muted);
-  updateMuteIcon();
-  if (!muted) soundClick();
-});
+const updMute = () => muteBtn.textContent = muted ? '🔇' : '🔊';
+updMute();
+muteBtn.addEventListener('click', () => { muted = !muted; localStorage.setItem('mc_muted', muted); updMute(); if(!muted) sClick(); });
 
-/* ================= 3. DARK MODE ================= */
+/* ========== THEME ========== */
 const themeBtn = document.getElementById('themeBtn');
 if (localStorage.getItem('mc_theme') === 'dark') document.body.classList.add('dark-mode');
 themeBtn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
 themeBtn.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
-  const isDark = document.body.classList.contains('dark-mode');
-  themeBtn.textContent = isDark ? '☀️' : '🌙';
-  localStorage.setItem('mc_theme', isDark ? 'dark' : 'light');
-  soundClick();
+  const d = document.body.classList.contains('dark-mode');
+  themeBtn.textContent = d ? '☀️' : '🌙';
+  localStorage.setItem('mc_theme', d ? 'dark' : 'light');
+  sClick();
 });
 
-/* ================= 4. PRESENTASI ================= */
+/* ========== PRESENTATION ========== */
 document.getElementById('presentBtn').addEventListener('click', () => {
   if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().then(() => {
-      document.body.classList.add('presentation-mode');
-      soundClick();
+    document.documentElement.requestFullscreen().then(()=>{
+      document.body.classList.add('presentation-mode'); sClick();
     }).catch(()=>{});
   } else {
-    document.exitFullscreen().then(() => document.body.classList.remove('presentation-mode'));
+    document.exitFullscreen().then(()=>document.body.classList.remove('presentation-mode'));
   }
 });
-document.addEventListener('fullscreenchange', () => {
-  if (!document.fullscreenElement) document.body.classList.remove('presentation-mode');
+document.addEventListener('fullscreenchange', ()=>{
+  if(!document.fullscreenElement) document.body.classList.remove('presentation-mode');
 });
 
-/* ================= 5. SHARE ================= */
+/* ========== SHARE ========== */
 document.getElementById('shareBtn').addEventListener('click', async () => {
-  soundClick();
-  const shareData = {
-    title: 'Persediaan & Ekuitas: Master Class Interaktif 🏆',
-    text: 'Belajar Akuntansi Persediaan & Ekuitas dengan cara engaging!',
-    url: location.href
-  };
+  sClick();
   try {
-    if (navigator.share) await navigator.share(shareData);
-    else { await navigator.clipboard.writeText(location.href); alert('Link disalin ke clipboard!'); }
-  } catch(e) {}
+    if (navigator.share) await navigator.share({
+      title: 'Persediaan & Ekuitas: Master Class Interaktif 🏆',
+      text: 'Belajar Akuntansi dengan cara engaging!',
+      url: location.href
+    });
+    else { await navigator.clipboard.writeText(location.href); alert('Link disalin!'); }
+  } catch(e){}
 });
 
-/* ================= 6. CURSOR GLOW ================= */
+/* ========== CURSOR ========== */
 const dot = document.getElementById('cursorDot');
 const ring = document.getElementById('cursorRing');
-let mx=0, my=0, rx=0, ry=0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e=>{
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
 });
-(function animateRing(){
-  rx += (mx - rx) * 0.18;
-  ry += (my - ry) * 0.18;
-  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-  requestAnimationFrame(animateRing);
+(function anim(){ rx+=(mx-rx)*.18; ry+=(my-ry)*.18;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim);
 })();
-document.addEventListener('mousedown', () => { ring.style.width='60px'; ring.style.height='60px'; });
-document.addEventListener('mouseup', () => { ring.style.width='42px'; ring.style.height='42px'; });
+document.addEventListener('mousedown',()=>{ring.style.width='60px';ring.style.height='60px'});
+document.addEventListener('mouseup',()=>{ring.style.width='44px';ring.style.height='44px'});
 
-/* ================= 7. PARTICLE BG ================= */
-(function() {
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
-  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-  resize();
-  window.addEventListener('resize', resize);
-  const N = window.innerWidth < 900 ? 35 : 70;
-  for (let i = 0; i < N; i++) {
-    particles.push({
-      x: Math.random()*W, y: Math.random()*H,
-      vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4,
-      r: Math.random()*2+1
-    });
-  }
-  function draw() {
-    ctx.clearRect(0,0,W,H);
-    particles.forEach((p,i) => {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x<0||p.x>W) p.vx *= -1;
-      if (p.y<0||p.y>H) p.vy *= -1;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(16,185,129,0.5)';
-      ctx.fill();
-      for (let j = i+1; j < particles.length; j++) {
-        const q = particles[j];
-        const dx = p.x - q.x, dy = p.y - q.y;
-        const d = Math.hypot(dx, dy);
-        if (d < 120) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
-          ctx.strokeStyle = `rgba(16,185,129,${0.15*(1-d/120)})`;
-          ctx.lineWidth = 0.7;
-          ctx.stroke();
+/* ========== PARTICLE ========== */
+(function(){
+  const c = document.getElementById('particle-canvas');
+  const x = c.getContext('2d');
+  let W,H,P=[];
+  function rs(){ W=c.width=innerWidth; H=c.height=innerHeight; }
+  rs(); addEventListener('resize', rs);
+  const N = innerWidth < 900 ? 30 : 60;
+  for(let i=0;i<N;i++) P.push({
+    x:Math.random()*W, y:Math.random()*H,
+    vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4, r:Math.random()*2+1
+  });
+  function draw(){
+    x.clearRect(0,0,W,H);
+    P.forEach((p,i)=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W) p.vx*=-1;
+      if(p.y<0||p.y>H) p.vy*=-1;
+      x.beginPath(); x.arc(p.x,p.y,p.r,0,Math.PI*2);
+      x.fillStyle='rgba(16,185,129,.5)'; x.fill();
+      for(let j=i+1;j<P.length;j++){
+        const q=P[j], dx=p.x-q.x, dy=p.y-q.y, d=Math.hypot(dx,dy);
+        if(d<120){
+          x.beginPath(); x.moveTo(p.x,p.y); x.lineTo(q.x,q.y);
+          x.strokeStyle=`rgba(16,185,129,${.15*(1-d/120)})`;
+          x.lineWidth=.7; x.stroke();
         }
       }
     });
@@ -922,134 +1023,282 @@ document.addEventListener('mouseup', () => { ring.style.width='42px'; ring.style
   draw();
 })();
 
-/* ================= 8. SCROLL PROGRESS & SPY ================= */
+/* ========== XP + BADGE SYSTEM ========== */
+const XP = { current: 0, level: 1, badges: new Set() };
+const XP_PER_LEVEL = 100;
+function xpForLevel(lv) { return lv * XP_PER_LEVEL; }
+function totalXpForLevel(lv) { return (lv-1) * lv / 2 * XP_PER_LEVEL; }
+
+function addXP(amount, reason) {
+  XP.current += amount;
+  // hitung level
+  let lv = 1;
+  while (XP.current >= totalXpForLevel(lv+1)) lv++;
+  const prevLv = XP.level;
+  XP.level = lv;
+  updateXpUI();
+  localStorage.setItem('mc_xp', XP.current);
+  if (lv > prevLv) {
+    soundPerfect();
+    showToast(`🎉 Naik ke Level ${lv}!`);
+    if (lv >= 5) unlockBadge('lvl5');
+  }
+}
+function updateXpUI() {
+  const total = XP.current;
+  const curLvBase = totalXpForLevel(XP.level);
+  const nextLv = totalXpForLevel(XP.level + 1);
+  const pct = Math.min(100, ((total - curLvBase) / (nextLv - curLvBase)) * 100);
+  document.getElementById('xpLevel').textContent = 'Lv ' + XP.level;
+  document.getElementById('xpBar').style.width = pct + '%';
+  document.getElementById('xpCount').textContent = total + ' XP';
+}
+function unlockBadge(id) {
+  if (XP.badges.has(id)) return;
+  XP.badges.add(id);
+  const el = document.querySelector(`.badge[data-badge="${id}"]`);
+  if (el) { el.classList.add('unlocked'); sBadge(); showToast(`🏅 Badge unlocked: ${el.querySelector('.nm').textContent}`); }
+  localStorage.setItem('mc_badges', JSON.stringify([...XP.badges]));
+}
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = `position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);
+    background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:12px 22px;
+    border-radius:50px;font-weight:700;font-size:.9rem;z-index:9999;
+    box-shadow:0 10px 30px rgba(16,185,129,.5);opacity:0;transition:.3s;
+    font-family:var(--font);pointer-events:none;white-space:nowrap`;
+  document.body.appendChild(t);
+  requestAnimationFrame(()=>{t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)'});
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(-20px)';
+    setTimeout(()=>t.remove(), 350)}, 2200);
+}
+// Restore
+(function(){
+  const saved = parseInt(localStorage.getItem('mc_xp') || '0');
+  XP.current = saved;
+  let lv = 1;
+  while (XP.current >= totalXpForLevel(lv+1)) lv++;
+  XP.level = lv;
+  try { JSON.parse(localStorage.getItem('mc_badges') || '[]').forEach(b => {
+    XP.badges.add(b);
+    const el = document.querySelector(`.badge[data-badge="${b}"]`);
+    if(el) el.classList.add('unlocked');
+  }); } catch(e){}
+  updateXpUI();
+})();
+unlockBadge('starter');
+addXP(0);
+
+/* ========== SECTION SPY + NAV ========== */
 const progressBar = document.getElementById('scroll-progress');
-const sections = document.querySelectorAll('.section-target');
-const navItems = document.querySelectorAll('.nav-item');
-window.addEventListener('scroll', () => {
+const sections = document.querySelectorAll('.sec-anchor');
+const pills = document.querySelectorAll('.nav-pill');
+function scrollToSection(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  sClick();
+}
+document.querySelectorAll('[data-scroll]').forEach(el=>{
+  el.addEventListener('click', ()=>{ scrollToSection(el.dataset.scroll); sClick(); });
+});
+document.getElementById('brandHome').addEventListener('click', ()=>scrollToSection('cover'));
+window.addEventListener('scroll', ()=>{
   const ws = document.body.scrollTop || document.documentElement.scrollTop;
   const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
   progressBar.style.width = ((ws/h)*100) + '%';
-  let current = '';
-  sections.forEach(sec => { if (ws >= sec.offsetTop - 160) current = sec.id; });
-  navItems.forEach(n => n.classList.toggle('active', n.dataset.target === current));
+  let cur = '';
+  sections.forEach(s=>{ if(ws >= s.offsetTop - 160) cur = s.id; });
+  pills.forEach(p=>{
+    p.classList.toggle('active', p.dataset.scroll === cur);
+    if(p.dataset.scroll === cur && window.innerWidth < 900) {
+      p.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+    }
+  });
 }, {passive:true});
 
-/* ================= 9. NAV & SMOOTH SCROLL ================= */
-function scrollToSection(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
-  if (window.innerWidth <= 900) document.getElementById('sidebar').classList.remove('open');
-}
-document.querySelectorAll('.nav-item, [data-scroll]').forEach(el => {
-  el.addEventListener('click', e => {
-    e.preventDefault();
-    const id = el.dataset.target || el.dataset.scroll;
-    if (id) { scrollToSection(id); soundClick(); }
+/* Reading tracker for badges */
+const readSections = new Set();
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      if (!readSections.has(id)) {
+        readSections.add(id);
+        if (id === 'bab1') { addXP(15, 'Baca Bab 1'); unlockBadge('reader1'); }
+        if (id === 'bab2') { addXP(15, 'Baca Bab 2'); unlockBadge('reader2'); }
+      }
+    }
   });
-});
-document.getElementById('menu-toggle').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.toggle('open'); soundClick();
-});
-document.getElementById('fabTop').addEventListener('click', () => { window.scrollTo({top:0,behavior:'smooth'}); soundClick(); });
+}, { threshold: 0.4 });
+document.querySelectorAll('#bab1, #bab2').forEach(el => io.observe(el));
 
-/* ================= 10. ACCORDION ================= */
-document.querySelectorAll('.accordion-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
+/* ========== FAB TOP ========== */
+document.getElementById('fabTop').addEventListener('click', ()=>{
+  window.scrollTo({top:0,behavior:'smooth'}); sClick();
+});
+
+/* ========== ACCORDION ========== */
+document.querySelectorAll('.acc-btn').forEach(btn => {
+  btn.addEventListener('click', function(){
     const c = this.nextElementSibling;
     const s = this.querySelector('span');
     c.classList.toggle('open');
     s.textContent = c.classList.contains('open') ? '▲' : '▼';
-    soundClick();
+    sClick();
   });
 });
 
-/* ================= 11. FLIP CARDS ================= */
+/* ========== FLIP CARDS ========== */
+let flips = 0;
 document.querySelectorAll('[data-flip]').forEach(card => {
-  card.addEventListener('click', () => { card.classList.toggle('flipped'); soundClick(); });
+  card.addEventListener('click', ()=>{
+    if (!card.classList.contains('flipped')) {
+      flips++;
+      addXP(2);
+      if (flips >= 8) unlockBadge('flipper');
+    }
+    card.classList.toggle('flipped');
+    sClick();
+  });
 });
 
-/* ================= 12. CHECKLISTS ================= */
+/* ========== CHECKLISTS ========== */
 const savedRefl = JSON.parse(localStorage.getItem('mc_refl') || '{}');
 document.querySelectorAll('[data-refl]').forEach(cb => {
   const key = cb.dataset.refl;
-  if (savedRefl[key]) { cb.checked = true; cb.closest('.checklist-item').classList.add('done'); }
-  cb.addEventListener('change', () => {
-    const item = cb.closest('.checklist-item');
-    item.classList.toggle('done', cb.checked);
+  if (savedRefl[key]) { cb.checked = true; cb.closest('.chk').classList.add('done'); }
+  cb.addEventListener('change', ()=>{
+    cb.closest('.chk').classList.toggle('done', cb.checked);
     savedRefl[key] = cb.checked;
     localStorage.setItem('mc_refl', JSON.stringify(savedRefl));
-    soundClick();
-    updateOverallProgress();
+    if (cb.checked) addXP(3);
+    sClick();
   });
 });
 
-/* ================= 13. STAT COUNTERS ================= */
-function animateCounters() {
-  document.querySelectorAll('.stat-num').forEach(el => {
-    const target = parseInt(el.dataset.count);
-    let n = 0;
-    const step = Math.max(1, Math.ceil(target/40));
-    const int = setInterval(() => {
-      n += step;
-      if (n >= target) { n = target; clearInterval(int); }
-      el.textContent = n + (target === 100 ? '%' : '+');
-    }, 30);
+/* ========== SWITCHER (Periodik vs Perpetual) ========== */
+document.querySelectorAll('.switcher button[data-switch]').forEach(btn => {
+  btn.addEventListener('click', ()=>{
+    const target = btn.dataset.switch;
+    const parent = btn.parentElement;
+    parent.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    // find sibling .switch-content
+    let el = parent.nextElementSibling;
+    while (el && !el.classList.contains('switch-content') && !el.classList.contains('fob-track')) {
+      if (el.classList.contains('switch-content')) break;
+      el = el.nextElementSibling;
+    }
+    document.querySelectorAll('.switch-content').forEach(c=>c.classList.remove('show'));
+    const targetEl = document.getElementById('sw-' + target);
+    if (targetEl) targetEl.classList.add('show');
+    sClick();
   });
-}
+});
 
-/* ================= 14. TYPING EFFECT ================= */
-const typingPhrases = [
-  'Kuasai Akuntansi Persediaan...',
-  'Pahami Ekuitas & Saham...',
-  'Hitung BPP dengan Simulator...',
-  'Raih Skor Sempurna!'
-];
-let tpIdx = 0, chIdx = 0, deleting = false;
-const typingEl = document.getElementById('typingText');
-function typeLoop() {
-  const phrase = typingPhrases[tpIdx];
-  if (!deleting) {
-    typingEl.textContent = phrase.slice(0, ++chIdx);
-    if (chIdx === phrase.length) { deleting = true; setTimeout(typeLoop, 1400); return; }
-    setTimeout(typeLoop, 60);
+/* ========== FOB VISUAL ========== */
+const fobInfo = document.getElementById('fobInfo');
+const fobGudang = document.getElementById('fobGudang');
+const fobTransit = document.getElementById('fobTransit');
+const fobTujuan = document.getElementById('fobTujuan');
+function updateFob(mode) {
+  [fobGudang, fobTransit, fobTujuan].forEach(el => el.classList.remove('active'));
+  if (mode === 'shipping') {
+    fobGudang.classList.add('active');
+    fobTransit.classList.add('active');
+    fobInfo.innerHTML = '<strong>🚚 FOB Shipping Point:</strong> Kepemilikan barang berpindah ke pembeli <strong>sejak barang keluar dari gudang penjual</strong> (in transit). Pembeli menanggung biaya angkut & risiko perjalanan.';
   } else {
-    typingEl.textContent = phrase.slice(0, --chIdx);
-    if (chIdx === 0) { deleting = false; tpIdx = (tpIdx+1) % typingPhrases.length; setTimeout(typeLoop, 300); return; }
-    setTimeout(typeLoop, 30);
+    fobTujuan.classList.add('active');
+    fobInfo.innerHTML = '<strong>🏬 FOB Destination:</strong> Kepemilikan baru berpindah ke pembeli <strong>saat barang tiba di tujuan</strong>. Penjual menanggung biaya angkut & risiko perjalanan.';
   }
 }
-typeLoop();
+document.querySelectorAll('.switcher button[data-fob]').forEach(btn => {
+  btn.addEventListener('click', ()=>{
+    btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    updateFob(btn.dataset.fob);
+    sClick();
+  });
+});
+updateFob('shipping');
 
-/* ================= 15. SIMULATOR BPP ================= */
+/* ========== DRAG & DROP ========== */
+let dndCorrect = 0;
+const dndTotal = document.querySelectorAll('.dnd-item').length;
+document.querySelectorAll('.dnd-item').forEach(item => {
+  item.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', item.dataset.cat);
+    e.dataTransfer.setData('id', item.textContent);
+    item.classList.add('dragging');
+    sClick();
+  });
+  item.addEventListener('dragend', () => item.classList.remove('dragging'));
+  // touch support
+  item.addEventListener('click', () => {
+    // cycle through drops for touch users
+  });
+});
+document.querySelectorAll('.dnd-drop').forEach(drop => {
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('over');
+    const cat = e.dataTransfer.getData('text/plain');
+    const id = e.dataTransfer.getData('id');
+    const dragged = [...document.querySelectorAll('.dnd-item.dragging')][0];
+    if (!dragged) return;
+    if (dragged.dataset.cat === drop.dataset.drop) {
+      dragged.classList.remove('dragging');
+      dragged.classList.add('correct');
+      dragged.draggable = false;
+      drop.appendChild(dragged);
+      dndCorrect++;
+      addXP(5);
+      sCorrect();
+      if (dndCorrect === dndTotal) {
+        unlockBadge('dnd');
+        showToast('🎯 Semua klasifikasi benar!');
+      }
+    } else {
+      dragged.classList.add('wrong');
+      setTimeout(()=>dragged.classList.remove('wrong'), 400);
+      sWrong();
+    }
+  });
+});
+
+/* ========== SIMULATOR BPP ========== */
 const fmtRp = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
-function updateBPP() {
-  const pawal = +document.getElementById('s_pawal').value || 0;
-  const pemb = +document.getElementById('s_pembelian').value || 0;
-  const angkut = +document.getElementById('s_angkut').value || 0;
-  const retur = +document.getElementById('s_retur').value || 0;
-  const pot = +document.getElementById('s_potongan').value || 0;
-  const pakhir = +document.getElementById('s_pakhir').value || 0;
+let simUsed = false;
+function updateBPP(){
+  const pawal=+document.getElementById('s_pawal').value||0;
+  const pemb=+document.getElementById('s_pembelian').value||0;
+  const angkut=+document.getElementById('s_angkut').value||0;
+  const retur=+document.getElementById('s_retur').value||0;
+  const pot=+document.getElementById('s_potongan').value||0;
+  const pakhir=+document.getElementById('s_pakhir').value||0;
   const pb = pemb + angkut - retur - pot;
   const bt = pawal + pb;
   const bpp = bt - pakhir;
   document.getElementById('r_pb').textContent = fmtRp(pb);
   document.getElementById('r_bt').textContent = fmtRp(bt);
   document.getElementById('r_bpp').textContent = fmtRp(bpp);
+  if (!simUsed) { simUsed = true; unlockBadge('simuser'); }
 }
-['s_pawal','s_pembelian','s_angkut','s_retur','s_potongan','s_pakhir'].forEach(id => {
-  document.getElementById(id).addEventListener('input', updateBPP);
+['s_pawal','s_pembelian','s_angkut','s_retur','s_potongan','s_pakhir'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', ()=>{ updateBPP(); if(!simUsed){} });
 });
 updateBPP();
 
-/* ================= 16. SIMULATOR SAHAM ================= */
-function updateSaham() {
-  const aset = +document.getElementById('s_aset').value || 0;
-  const utang = +document.getElementById('s_utang').value || 0;
-  const jml = +document.getElementById('s_jumlah').value || 0;
-  const nom = +document.getElementById('s_nominal').value || 0;
-  const hrg = +document.getElementById('s_harga').value || 0;
-  const laba = +document.getElementById('s_laba').value || 0;
+/* ========== SIMULATOR SAHAM ========== */
+function updateSaham(){
+  const aset=+document.getElementById('s_aset').value||0;
+  const utang=+document.getElementById('s_utang').value||0;
+  const jml=+document.getElementById('s_jumlah').value||0;
+  const nom=+document.getElementById('s_nominal').value||0;
+  const hrg=+document.getElementById('s_harga').value||0;
+  const laba=+document.getElementById('s_laba').value||0;
   const ekuitas = aset - utang;
   const modal = jml * nom;
   const agio = jml * (hrg - nom);
@@ -1060,298 +1309,274 @@ function updateSaham() {
   agioEl.style.color = agio >= 0 ? 'var(--primary)' : 'var(--danger)';
   document.getElementById('r_total').textContent = fmtRp(ekuitas + laba);
 }
-['s_aset','s_utang','s_jumlah','s_nominal','s_harga','s_laba'].forEach(id => {
+['s_aset','s_utang','s_jumlah','s_nominal','s_harga','s_laba'].forEach(id=>{
   document.getElementById(id).addEventListener('input', updateSaham);
 });
 updateSaham();
 
-/* ================= 17. QUIZ ENGINE ================= */
+/* ========== QUIZ ========== */
 const quizData1 = [
-  {q:"Apa jenis persediaan utama pada perusahaan dagang?", options:["Bahan Baku","Perlengkapan (Supplies)","Persediaan Barang Dagang","Barang Jadi"], ans:2, exp:"Persediaan perusahaan dagang berupa Persediaan Barang Dagang — dibeli khusus untuk dijual kembali tanpa diubah bentuknya."},
-  {q:"Sistem pencatatan yang menyajikan BPP setiap saat terjadi transaksi adalah?", options:["Sistem Periodik","Sistem Fisik","Sistem Perpetual","Sistem Konsinyasi"], ans:2, exp:"Sistem Perpetual mencatat setiap mutasi persediaan secara real-time pada kartu persediaan."},
-  {q:"Sistem pencatatan di mana BPP hanya diketahui di akhir periode disebut?", options:["Sistem Perpetual","Sistem Periodik / Fisik","Sistem LCNRV","Sistem Rata-rata Bergerak"], ans:1, exp:"Sistem Periodik menghitung BPP di akhir periode setelah persediaan fisik dihitung."},
-  {q:"Rumus Barang Tersedia Untuk Dijual adalah?", options:["Persediaan Awal + Pembelian Bersih","Persediaan Awal − Persediaan Akhir","Pembelian − BPP","Persediaan Akhir + Retur"], ans:0, exp:"Barang Tersedia Untuk Dijual = Persediaan Awal + Pembelian Bersih."},
-  {q:"Pada FOB Shipping Point, kapan kepemilikan barang beralih ke pembeli?", options:["Saat barang sampai di tujuan","Saat barang dibongkar","Sejak keluar dari gudang penjual","Saat pembayaran lunas"], ans:2, exp:"FOB Shipping Point = kepemilikan beralih saat barang dikirim dari penjual (in transit)."},
-  {q:"Pihak yang menitipkan barang dalam konsinyasi disebut?", options:["Consignee","Consignor","Agen","Debitur"], ans:1, exp:"Consignor = pemilik/penitip barang, Consignee = agen penjual."},
-  {q:"Syarat pembayaran 2/10, n/30 berarti?", options:["Diskon 2% jika lunas dalam 30 hari","Diskon 2% jika dibayar dalam 10 hari, jatuh tempo 30 hari","Diskon 10% jika bayar 2 hari","Denda 2% jika lewat 30 hari"], ans:1, exp:"Diskon tunai 2% jika dibayar dalam 10 hari sejak faktur; jatuh tempo penuh 30 hari."},
-  {q:"Metode FIFO mengasumsikan bahwa...", options:["Barang terakhir masuk dijual pertama","Harga rata-rata dipakai","Barang pertama masuk dijual pertama","Harga tertinggi jadi BPP"], ans:2, exp:"First In First Out (FIFO) = barang pertama yang dibeli akan dijual pertama."},
-  {q:"Metode penilaian persediaan yang cocok untuk barang mewah & terbatas?", options:["LIFO","FIFO","Average","Identifikasi Khusus"], ans:3, exp:"Identifikasi Khusus melacak arus fisik per unit — cocok untuk barang mahal/unik."},
-  {q:"Menurut LOCOM/LCNRV, nilai persediaan ditentukan dengan cara?", options:["Pilih yang tertinggi antara Biaya vs Pasar","Pilih yang terendah antara Biaya vs Pasar","Selalu pakai Biaya Standar","Bagi dua"], ans:1, exp:"LOCOM mencatat nilai yang lebih rendah antara biaya perolehan dan harga pasar."},
-  {q:"Perbedaan Trade Discount dan Cash Discount adalah?", options:["Sama saja","Trade = potongan kuantitas, Cash = potongan bayar cepat","Trade = potongan tunai, Cash = rabat","Keduanya potongan pajak"], ans:1, exp:"Trade Discount = rabat kuantitas; Cash Discount = potongan karena pembayaran cepat."},
-  {q:"Pada perusahaan manufaktur, persediaan bisa berupa?", options:["Hanya barang jadi","Bahan baku, barang dalam proses, barang jadi","Hanya bahan baku","Hanya perlengkapan"], ans:1, exp:"Perusahaan manufaktur memiliki 3 jenis persediaan: bahan baku, barang dalam proses (WIP), dan barang jadi."},
-  {q:"Persediaan dalam neraca disajikan pada bagian?", options:["Aset Tidak Lancar","Liabilitas","Ekuitas","Aset Lancar"], ans:3, exp:"Persediaan = aset lancar karena dapat dicairkan < 1 tahun."},
-  {q:"Pada perusahaan jasa, persediaan umumnya berupa?", options:["Barang dagang","Perlengkapan (supplies)","Bahan baku","Barang jadi"], ans:1, exp:"Perusahaan jasa tidak menjual barang berwujud — persediaannya berupa perlengkapan operasional."},
-  {q:"FOB Destination berarti kepemilikan barang beralih saat?", options:["Barang keluar gudang penjual","Barang sampai di tujuan pembeli","Pembayaran diterima","Faktur dikirim"], ans:1, exp:"FOB Destination = kepemilikan beralih saat barang sampai di tujuan pembeli."}
+  {q:"Apa jenis persediaan utama pada perusahaan dagang?",options:["Bahan Baku","Perlengkapan (Supplies)","Persediaan Barang Dagang","Barang Jadi"],ans:2,exp:"Persediaan perusahaan dagang berupa Persediaan Barang Dagang — dibeli khusus untuk dijual kembali tanpa diubah bentuknya."},
+  {q:"Sistem pencatatan yang menyajikan BPP setiap saat terjadi transaksi adalah?",options:["Sistem Periodik","Sistem Fisik","Sistem Perpetual","Sistem Konsinyasi"],ans:2,exp:"Sistem Perpetual mencatat setiap mutasi persediaan secara real-time pada kartu persediaan."},
+  {q:"Sistem pencatatan di mana BPP hanya diketahui di akhir periode disebut?",options:["Sistem Perpetual","Sistem Periodik / Fisik","Sistem LCNRV","Sistem Rata-rata Bergerak"],ans:1,exp:"Sistem Periodik menghitung BPP di akhir periode setelah persediaan fisik dihitung."},
+  {q:"Rumus Barang Tersedia Untuk Dijual adalah?",options:["Persediaan Awal + Pembelian Bersih","Persediaan Awal − Persediaan Akhir","Pembelian − BPP","Persediaan Akhir + Retur"],ans:0,exp:"Barang Tersedia Untuk Dijual = Persediaan Awal + Pembelian Bersih."},
+  {q:"Pada FOB Shipping Point, kapan kepemilikan barang beralih ke pembeli?",options:["Saat barang sampai di tujuan","Saat barang dibongkar","Sejak keluar dari gudang penjual","Saat pembayaran lunas"],ans:2,exp:"FOB Shipping Point = kepemilikan beralih saat barang dikirim dari penjual (in transit)."},
+  {q:"Pihak yang menitipkan barang dalam konsinyasi disebut?",options:["Consignee","Consignor","Agen","Debitur"],ans:1,exp:"Consignor = pemilik/penitip barang, Consignee = agen penjual."},
+  {q:"Syarat pembayaran 2/10, n/30 berarti?",options:["Diskon 2% jika lunas dalam 30 hari","Diskon 2% jika dibayar dalam 10 hari, jatuh tempo 30 hari","Diskon 10% jika bayar 2 hari","Denda 2% jika lewat 30 hari"],ans:1,exp:"Diskon tunai 2% jika dibayar dalam 10 hari sejak faktur; jatuh tempo penuh 30 hari."},
+  {q:"Metode FIFO mengasumsikan bahwa...",options:["Barang terakhir masuk dijual pertama","Harga rata-rata dipakai","Barang pertama masuk dijual pertama","Harga tertinggi jadi BPP"],ans:2,exp:"First In First Out (FIFO) = barang pertama yang dibeli akan dijual pertama."},
+  {q:"Metode penilaian persediaan yang cocok untuk barang mewah & terbatas?",options:["LIFO","FIFO","Average","Identifikasi Khusus"],ans:3,exp:"Identifikasi Khusus melacak arus fisik per unit — cocok untuk barang mahal/unik."},
+  {q:"Menurut LOCOM/LCNRV, nilai persediaan ditentukan dengan cara?",options:["Pilih yang tertinggi antara Biaya vs Pasar","Pilih yang terendah antara Biaya vs Pasar","Selalu pakai Biaya Standar","Bagi dua"],ans:1,exp:"LOCOM mencatat nilai yang lebih rendah antara biaya perolehan dan harga pasar."},
+  {q:"Perbedaan Trade Discount dan Cash Discount adalah?",options:["Sama saja","Trade = potongan kuantitas, Cash = potongan bayar cepat","Trade = potongan tunai, Cash = rabat","Keduanya potongan pajak"],ans:1,exp:"Trade Discount = rabat kuantitas; Cash Discount = potongan karena pembayaran cepat."},
+  {q:"Pada perusahaan manufaktur, persediaan bisa berupa?",options:["Hanya barang jadi","Bahan baku, barang dalam proses, barang jadi","Hanya bahan baku","Hanya perlengkapan"],ans:1,exp:"Perusahaan manufaktur memiliki 3 jenis persediaan: bahan baku, barang dalam proses (WIP), dan barang jadi."},
+  {q:"Persediaan dalam neraca disajikan pada bagian?",options:["Aset Tidak Lancar","Liabilitas","Ekuitas","Aset Lancar"],ans:3,exp:"Persediaan = aset lancar karena dapat dicairkan < 1 tahun."},
+  {q:"Pada perusahaan jasa, persediaan umumnya berupa?",options:["Barang dagang","Perlengkapan (supplies)","Bahan baku","Barang jadi"],ans:1,exp:"Perusahaan jasa tidak menjual barang berwujud — persediaannya berupa perlengkapan operasional."},
+  {q:"FOB Destination berarti kepemilikan barang beralih saat?",options:["Barang keluar gudang penjual","Barang sampai di tujuan pembeli","Pembayaran diterima","Faktur dikirim"],ans:1,exp:"FOB Destination = kepemilikan beralih saat barang sampai di tujuan pembeli."}
 ];
-
 const quizData2 = [
-  {q:"Berdasarkan persamaan dasar akuntansi, Ekuitas = ?", options:["Aset + Utang","Utang − Aset","Aset − Utang","Laba + Pendapatan"], ans:2, exp:"Ekuitas = Aset − Utang (hak bersih pemilik atas aset perusahaan)."},
-  {q:"Ciri utama Perusahaan Perorangan adalah?", options:["Ada pemisahan kekayaan yang tegas","Tanggung jawab pemilik tidak terbatas","Dijalankan oleh direksi","Diawasi RUPS"], ans:1, exp:"Tidak ada pemisahan hukum antara kekayaan pribadi & perusahaan, sehingga tanggung jawab tidak terbatas."},
-  {q:"Dalam CV, sekutu yang aktif mengurus perseroan disebut?", options:["Persero Komanditer","Komisaris","Persero Aktif","Consignee"], ans:2, exp:"Persero Aktif = pengurus CV dengan tanggung jawab tidak terbatas."},
-  {q:"Pemegang kekuasaan tertinggi dalam Koperasi adalah?", options:["Dewan Direksi","Rapat Anggota Tahunan (RAT)","Manajer","Ketua Koperasi"], ans:1, exp:"Koperasi demokratis — RAT adalah kekuasaan tertinggi, 1 anggota 1 suara."},
-  {q:"Simpanan yang dibayar sekali di awal keanggotaan koperasi & tidak bisa ditarik kembali disebut?", options:["Simpanan Wajib","Simpanan Pokok","Dana Cadangan","Hibah"], ans:1, exp:"Simpanan Pokok = sekali bayar di awal; tidak bisa ditarik selama jadi anggota."},
-  {q:"Modal dasar minimal PT menurut UU No. 40 Tahun 2007 adalah?", options:["Rp 10.000.000","Rp 25.000.000","Rp 50.000.000","Rp 100.000.000"], ans:2, exp:"UU menetapkan modal dasar PT minimal Rp 50 juta dengan min. 25% disetor penuh."},
-  {q:"Saham yang memberi hak istimewa pembagian dividen lebih dulu adalah?", options:["Saham Biasa","Saham Treasuri","Saham Preferen","Saham Agio"], ans:2, exp:"Saham Preferen dapat prioritas dividen persentase tetap sebelum saham biasa."},
-  {q:"Jika saham nominal Rp 5.000 dijual Rp 5.500, selisih Rp 500 dicatat sebagai?", options:["Disagio Saham","Agio Saham","Beban Operasional","Pendapatan Lain-lain"], ans:1, exp:"Selisih lebih dari nominal = Agio Saham (Tambahan Modal Disetor)."},
-  {q:"Jika saham nominal Rp 5.000 dijual Rp 4.500, selisih Rp 500 dicatat sebagai?", options:["Agio Saham","Disagio Saham","Kerugian Operasional","Pendapatan"], ans:1, exp:"Selisih kurang dari nominal = Disagio Saham (mengurangi Tambahan Modal Disetor)."},
-  {q:"Berikut syarat pembagian dividen tunai, KECUALI...", options:["Saldo laba mencukupi","Kas memadai","Tindakan formal Direksi","Harga saham sedang naik"], ans:3, exp:"Kenaikan harga saham di bursa bukan syarat internal pembagian dividen."},
-  {q:"Sesuai SAK ETAP, pendapatan jasa diakui pada saat?", options:["Kas diterima","Perjanjian ditandatangani","Jasa diselesaikan & dapat ditagih","Awal tahun buku"], ans:2, exp:"Dasar Akrual = pendapatan diakui saat kewajiban jasa diselesaikan, bukan saat kas diterima."},
-  {q:"Penurunan manfaat ekonomi yang menurunkan ekuitas disebut?", options:["Pendapatan","Beban","Aset","Dividen"], ans:1, exp:"Beban = penurunan manfaat ekonomi yang mengurangi aset/menambah kewajiban, berdampak turunnya ekuitas."},
-  {q:"Organ PT yang bertugas mengawasi & menasihati Direksi adalah?", options:["RUPS","Dewan Komisaris","Persero Komanditer","Penanam Modal"], ans:1, exp:"Dewan Komisaris mengawasi jalannya perusahaan & menasihati Direksi."},
-  {q:"PT Tertutup adalah PT yang...", options:["Sahamnya diperjualbelikan di bursa","Sahamnya dipegang pihak tertentu saja","Tidak punya direksi","Tidak membayar pajak"], ans:1, exp:"PT Tertutup = saham dipegang pihak tertentu. PT Terbuka (Tbk) = saham dijual ke publik."},
-  {q:"Pendapatan menurut SAK ETAP diukur dengan?", options:["Nilai Nominal","Nilai Wajar","Nilai Buku","Nilai Historis"], ans:1, exp:"Pendapatan diukur dengan Nilai Wajar dari imbalan yang diterima/dapat diterima."}
+  {q:"Berdasarkan persamaan dasar akuntansi, Ekuitas = ?",options:["Aset + Utang","Utang − Aset","Aset − Utang","Laba + Pendapatan"],ans:2,exp:"Ekuitas = Aset − Utang (hak bersih pemilik atas aset perusahaan)."},
+  {q:"Ciri utama Perusahaan Perorangan adalah?",options:["Ada pemisahan kekayaan yang tegas","Tanggung jawab pemilik tidak terbatas","Dijalankan oleh direksi","Diawasi RUPS"],ans:1,exp:"Tidak ada pemisahan hukum antara kekayaan pribadi & perusahaan, sehingga tanggung jawab tidak terbatas."},
+  {q:"Dalam CV, sekutu yang aktif mengurus perseroan disebut?",options:["Persero Komanditer","Komisaris","Persero Aktif","Consignee"],ans:2,exp:"Persero Aktif = pengurus CV dengan tanggung jawab tidak terbatas."},
+  {q:"Pemegang kekuasaan tertinggi dalam Koperasi adalah?",options:["Dewan Direksi","Rapat Anggota Tahunan (RAT)","Manajer","Ketua Koperasi"],ans:1,exp:"Koperasi demokratis — RAT adalah kekuasaan tertinggi, 1 anggota 1 suara."},
+  {q:"Simpanan yang dibayar sekali di awal keanggotaan koperasi & tidak bisa ditarik kembali disebut?",options:["Simpanan Wajib","Simpanan Pokok","Dana Cadangan","Hibah"],ans:1,exp:"Simpanan Pokok = sekali bayar di awal; tidak bisa ditarik selama jadi anggota."},
+  {q:"Modal dasar minimal PT menurut UU No. 40 Tahun 2007 adalah?",options:["Rp 10.000.000","Rp 25.000.000","Rp 50.000.000","Rp 100.000.000"],ans:2,exp:"UU menetapkan modal dasar PT minimal Rp 50 juta dengan min. 25% disetor penuh."},
+  {q:"Saham yang memberi hak istimewa pembagian dividen lebih dulu adalah?",options:["Saham Biasa","Saham Treasuri","Saham Preferen","Saham Agio"],ans:2,exp:"Saham Preferen dapat prioritas dividen persentase tetap sebelum saham biasa."},
+  {q:"Jika saham nominal Rp 5.000 dijual Rp 5.500, selisih Rp 500 dicatat sebagai?",options:["Disagio Saham","Agio Saham","Beban Operasional","Pendapatan Lain-lain"],ans:1,exp:"Selisih lebih dari nominal = Agio Saham (Tambahan Modal Disetor)."},
+  {q:"Jika saham nominal Rp 5.000 dijual Rp 4.500, selisih Rp 500 dicatat sebagai?",options:["Agio Saham","Disagio Saham","Kerugian Operasional","Pendapatan"],ans:1,exp:"Selisih kurang dari nominal = Disagio Saham (mengurangi Tambahan Modal Disetor)."},
+  {q:"Berikut syarat pembagian dividen tunai, KECUALI...",options:["Saldo laba mencukupi","Kas memadai","Tindakan formal Direksi","Harga saham sedang naik"],ans:3,exp:"Kenaikan harga saham di bursa bukan syarat internal pembagian dividen."},
+  {q:"Sesuai SAK ETAP, pendapatan jasa diakui pada saat?",options:["Kas diterima","Perjanjian ditandatangani","Jasa diselesaikan & dapat ditagih","Awal tahun buku"],ans:2,exp:"Dasar Akrual = pendapatan diakui saat kewajiban jasa diselesaikan, bukan saat kas diterima."},
+  {q:"Penurunan manfaat ekonomi yang menurunkan ekuitas disebut?",options:["Pendapatan","Beban","Aset","Dividen"],ans:1,exp:"Beban = penurunan manfaat ekonomi yang mengurangi aset/menambah kewajiban, berdampak turunnya ekuitas."},
+  {q:"Organ PT yang bertugas mengawasi & menasihati Direksi adalah?",options:["RUPS","Dewan Komisaris","Persero Komanditer","Penanam Modal"],ans:1,exp:"Dewan Komisaris mengawasi jalannya perusahaan & menasihati Direksi."},
+  {q:"PT Tertutup adalah PT yang...",options:["Sahamnya diperjualbelikan di bursa","Sahamnya dipegang pihak tertentu saja","Tidak punya direksi","Tidak membayar pajak"],ans:1,exp:"PT Tertutup = saham dipegang pihak tertentu. PT Terbuka (Tbk) = saham dijual ke publik."},
+  {q:"Pendapatan menurut SAK ETAP diukur dengan?",options:["Nilai Nominal","Nilai Wajar","Nilai Buku","Nilai Historis"],ans:1,exp:"Pendapatan diukur dengan Nilai Wajar dari imbalan yang diterima/dapat diterima."}
 ];
 
 function buildQuiz(containerId, data) {
-  const container = document.getElementById(containerId);
+  const c = document.getElementById(containerId);
   let html = '';
   data.forEach((q, idx) => {
-    html += `
-      <div class="question-card">
-        <div class="q-title">Soal ${idx+1}: ${q.q}</div>
-        <div class="options">
-          ${q.options.map((opt, i) => `<button class="option-btn" data-idx="${i}">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}
-        </div>
-        <div class="q-feedback"></div>
-      </div>`;
-  });
-  html += `
-    <div class="quiz-score-box glass-card">
-      <div class="progress-ring-wrap">
-        <svg class="progress-ring" viewBox="0 0 120 120">
-          <defs><linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#06b6d4"/>
-          </linearGradient></defs>
-          <circle class="ring-bg" cx="60" cy="60" r="52"/>
-          <circle class="ring-fg" cx="60" cy="60" r="52"/>
-        </svg>
-        <div class="ring-text">0%</div>
+    html += `<div class="q-card">
+      <div class="q-num">Soal ${idx+1}</div>
+      <div class="q-title">${q.q}</div>
+      <div class="options">
+        ${q.options.map((o,i)=>`<button class="opt-btn" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
       </div>
-      <h3 class="result-title">Hasil Kuis</h3>
-      <p class="score-text">0 dari ${data.length}</p>
-      <p class="score-message" style="color:var(--muted)"></p>
-      <div style="max-width:260px;margin:16px auto"><canvas class="score-chart"></canvas></div>
-      <button class="btn reset-btn" style="margin-top:16px">🔄 Ulangi Kuis</button>
+      <div class="q-fb"></div>
     </div>`;
-  container.innerHTML = html;
-  container._data = data;
-  container._score = 0;
-  container._answered = 0;
-  container.querySelectorAll('.question-card').forEach((card, qIdx) => {
-    card.querySelectorAll('.option-btn').forEach(btn => {
-      btn.addEventListener('click', () => handleAnswer(container, card, qIdx, +btn.dataset.idx));
+  });
+  html += `<div class="score-box">
+    <div class="ring-wrap">
+      <svg class="ring" viewBox="0 0 120 120">
+        <defs><linearGradient id="rg-${containerId}" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#06b6d4"/>
+        </linearGradient></defs>
+        <circle class="ring-bg" cx="60" cy="60" r="52"/>
+        <circle class="ring-fg" cx="60" cy="60" r="52" stroke="url(#rg-${containerId})"/>
+      </svg>
+      <div class="ring-txt">0%</div>
+    </div>
+    <h3>Hasil Kuis</h3>
+    <p class="score-txt">0 dari ${data.length}</p>
+    <p class="score-msg" style="color:var(--muted);margin-top:6px"></p>
+    <button class="btn reset-btn" style="margin-top:16px">🔄 Ulangi Kuis</button>
+  </div>`;
+  c.innerHTML = html;
+  c._data = data; c._score = 0; c._answered = 0; c._quizId = containerId;
+  c.querySelectorAll('.q-card').forEach((card, qIdx) => {
+    card.querySelectorAll('.opt-btn').forEach(btn => {
+      btn.addEventListener('click', () => handleAnswer(c, card, qIdx, +btn.dataset.i));
     });
   });
-  container.querySelector('.reset-btn').addEventListener('click', () => {
-    soundClick();
-    buildQuiz(containerId, data);
-  });
+  c.querySelector('.reset-btn').addEventListener('click', ()=>{ sClick(); buildQuiz(containerId, data); });
 }
 
-function handleAnswer(container, card, qIdx, sel) {
+function handleAnswer(c, card, qIdx, sel) {
   if (card.dataset.locked) return;
   card.dataset.locked = '1';
-  const data = container._data;
+  const data = c._data;
   const correct = data[qIdx].ans;
-  const btns = card.querySelectorAll('.option-btn');
+  const btns = card.querySelectorAll('.opt-btn');
   btns.forEach(b => b.disabled = true);
   btns[correct].classList.add('correct');
-  const fb = card.querySelector('.q-feedback');
+  const fb = card.querySelector('.q-fb');
   fb.style.display = 'block';
-
   if (sel === correct) {
-    container._score++;
+    c._score++;
+    addXP(10);
     fb.style.borderLeftColor = 'var(--success)';
     fb.innerHTML = `<strong>✅ Tepat Sekali!</strong><br>${data[qIdx].exp}`;
-    soundCorrect();
+    sCorrect();
   } else {
     btns[sel].classList.add('wrong');
     fb.style.borderLeftColor = 'var(--danger)';
     fb.innerHTML = `<strong>❌ Kurang Tepat.</strong> Jawaban benar: <strong>${String.fromCharCode(65+correct)}</strong>.<br>${data[qIdx].exp}`;
-    soundWrong();
+    sWrong();
   }
-
-  container._answered++;
-  if (container._answered === data.length) showResult(container);
+  c._answered++;
+  if (c._answered === data.length) showResult(c);
   saveProgress();
 }
 
-function showResult(container) {
-  const box = container.querySelector('.quiz-score-box');
+function showResult(c) {
+  const box = c.querySelector('.score-box');
   box.classList.add('show');
-  const total = container._data.length;
-  const score = container._score;
+  const total = c._data.length, score = c._score;
   const pct = Math.round((score/total)*100);
-  box.querySelector('.score-text').textContent = `${score} dari ${total}`;
+  box.querySelector('.score-txt').textContent = `${score} dari ${total}`;
   let msg = '';
-  if (pct === 100) { msg = '🏆 Luar biasa! Sempurna!'; soundPerfect(); }
+  if (pct === 100) { msg = '🏆 Luar biasa! Sempurna!'; sPerfect(); }
   else if (pct >= 70) msg = '🌟 Bagus sekali! Kamu sudah menguasai materi.';
   else if (pct >= 50) msg = '💪 Cukup baik, pelajari lagi beberapa bagian.';
   else msg = '📚 Semangat! Coba baca ulang materinya ya.';
-  box.querySelector('.score-message').textContent = msg;
-
+  box.querySelector('.score-msg').textContent = msg;
   const ring = box.querySelector('.ring-fg');
-  const circum = 2 * Math.PI * 52;
+  const circum = 2*Math.PI*52;
   ring.style.strokeDasharray = circum;
   ring.style.strokeDashoffset = circum * (1 - pct/100);
-  box.querySelector('.ring-text').textContent = pct + '%';
-
-  const ctx = box.querySelector('.score-chart').getContext('2d');
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Benar', 'Salah'],
-      datasets: [{
-        data: [score, total - score],
-        backgroundColor: ['#10b981', '#e5e7eb'],
-        borderWidth: 0
-      }]
-    },
-    options: {
-      cutout: '70%',
-      plugins: { legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans' } } } }
-    }
-  });
-
-  setTimeout(() => { box.scrollIntoView({behavior:'smooth', block:'center'}); }, 200);
+  box.querySelector('.ring-txt').textContent = pct + '%';
+  setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'center'}), 200);
   if (pct >= 70) triggerConfetti();
+  if (pct === 100) unlockBadge('perfect');
+  if (c._quizId === 'quiz-app-1' && pct >= 70) unlockBadge('quiz1');
+  if (c._quizId === 'quiz-app-2' && pct >= 70) unlockBadge('quiz2');
+  const q1 = document.getElementById('quiz-app-1');
+  const q2 = document.getElementById('quiz-app-2');
+  if ((q1._score||0) >= 10.5 && (q2._score||0) >= 10.5) unlockBadge('master');
   saveProgress();
-  updateOverallProgress();
-  updateCertificate();
+  updateProgress();
+  updateCert();
 }
 
-/* ================= 18. PROGRESS & SERTIFIKAT ================= */
-function saveProgress() {
+function saveProgress(){
   const q1 = document.getElementById('quiz-app-1');
   const q2 = document.getElementById('quiz-app-2');
   localStorage.setItem('mc_progress', JSON.stringify({
-    q1: {s: q1._score || 0, a: q1._answered || 0},
-    q2: {s: q2._score || 0, a: q2._answered || 0}
+    q1:{s:q1._score||0,a:q1._answered||0}, q2:{s:q2._score||0,a:q2._answered||0}
   }));
 }
-
-function updateOverallProgress() {
+function updateProgress(){
   const q1 = document.getElementById('quiz-app-1');
   const q2 = document.getElementById('quiz-app-2');
-  const total = 30;
-  const answered = (q1._answered || 0) + (q2._answered || 0);
-  const pct = Math.round((answered/total)*100);
-  document.getElementById('progressText').textContent = pct + '%';
+  const answered = (q1._answered||0) + (q2._answered||0);
+  document.getElementById('progressText').textContent = Math.round((answered/30)*100) + '%';
 }
-
-function updateCertificate() {
+function updateCert(){
   const q1 = document.getElementById('quiz-app-1');
   const q2 = document.getElementById('quiz-app-2');
-  document.getElementById('certQ1').textContent = (q1._score || 0) + '/15';
-  document.getElementById('certQ2').textContent = (q2._score || 0) + '/15';
-  document.getElementById('certTotal').textContent = ((q1._score || 0) + (q2._score || 0)) + '/30';
+  document.getElementById('certQ1').textContent = (q1._score||0) + '/15';
+  document.getElementById('certQ2').textContent = (q2._score||0) + '/15';
+  document.getElementById('certTotal').textContent = ((q1._score||0)+(q2._score||0)) + '/30';
 }
 
-/* ================= 19. CONFETTI ================= */
-const confCanvas = document.getElementById('confetti-canvas');
-const confCtx = confCanvas.getContext('2d');
-let confParticles = [];
-let confRAF;
-const confColors = ['#10b981', '#06b6d4', '#84cc16', '#f59e0b', '#8b5cf6', '#ef4444'];
-function resizeConf() { confCanvas.width = window.innerWidth; confCanvas.height = window.innerHeight; }
-resizeConf(); window.addEventListener('resize', resizeConf);
-
-function triggerConfetti() {
-  confParticles = [];
-  for (let i = 0; i < 160; i++) {
-    confParticles.push({
-      x: Math.random()*confCanvas.width,
-      y: -Math.random()*confCanvas.height,
-      w: Math.random()*8+4, h: Math.random()*8+4,
-      color: confColors[Math.floor(Math.random()*confColors.length)],
-      vy: Math.random()*3+2, vx: Math.random()*2-1,
-      angle: Math.random()*360, spin: Math.random()*6-3
-    });
-  }
-  if (!confRAF) confLoop();
-  setTimeout(() => {
-    confParticles = [];
-    confCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
-  }, 5000);
-}
-function confLoop() {
-  confRAF = requestAnimationFrame(confLoop);
-  confCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
-  confParticles.forEach(p => {
-    p.y += p.vy; p.x += p.vx; p.angle += p.spin;
-    if (p.y > confCanvas.height) { p.y = -10; p.x = Math.random()*confCanvas.width; }
-    confCtx.save();
-    confCtx.translate(p.x, p.y); confCtx.rotate(p.angle*Math.PI/180);
-    confCtx.fillStyle = p.color;
-    confCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-    confCtx.restore();
+/* ========== CONFETTI ========== */
+const cfC = document.getElementById('confetti-canvas');
+const cfX = cfC.getContext('2d');
+let cfP = [], cfRAF;
+const cfColors = ['#10b981','#06b6d4','#84cc16','#f59e0b','#8b5cf6','#ef4444'];
+function rsCf(){ cfC.width=innerWidth; cfC.height=innerHeight; }
+rsCf(); addEventListener('resize', rsCf);
+function triggerConfetti(){
+  cfP = [];
+  for(let i=0;i<160;i++) cfP.push({
+    x:Math.random()*cfC.width, y:-Math.random()*cfC.height,
+    w:Math.random()*8+4, h:Math.random()*8+4,
+    color:cfColors[Math.floor(Math.random()*cfColors.length)],
+    vy:Math.random()*3+2, vx:Math.random()*2-1,
+    angle:Math.random()*360, spin:Math.random()*6-3
   });
-  if (confParticles.length === 0) { cancelAnimationFrame(confRAF); confRAF = null; }
+  if(!cfRAF) cfLoop();
+  setTimeout(()=>{ cfP=[]; cfX.clearRect(0,0,cfC.width,cfC.height); }, 5000);
 }
+function cfLoop(){
+  cfRAF = requestAnimationFrame(cfLoop);
+  cfX.clearRect(0,0,cfC.width,cfC.height);
+  cfP.forEach(p=>{
+    p.y+=p.vy; p.x+=p.vx; p.angle+=p.spin;
+    if(p.y>cfC.height){p.y=-10;p.x=Math.random()*cfC.width;}
+    cfX.save(); cfX.translate(p.x,p.y); cfX.rotate(p.angle*Math.PI/180);
+    cfX.fillStyle=p.color; cfX.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+    cfX.restore();
+  });
+  if(cfP.length===0){ cancelAnimationFrame(cfRAF); cfRAF=null; }
+}
+document.getElementById('celebrateBtn').addEventListener('click', ()=>{ triggerConfetti(); sPerfect(); addXP(20); });
 
-document.getElementById('celebrateBtn').addEventListener('click', () => { triggerConfetti(); soundPerfect(); });
-
-/* ================= 20. SERTIFIKAT ================= */
-const certName = document.getElementById('certName');
-const certNameDisplay = document.getElementById('certNameDisplay');
-certName.addEventListener('input', () => {
-  certNameDisplay.textContent = certName.value || '[ Nama Kamu ]';
-  localStorage.setItem('mc_name', certName.value);
+/* ========== CERTIFICATE ========== */
+const certInput = document.getElementById('certName');
+const certDisplay = document.getElementById('certNameDisplay');
+certInput.addEventListener('input', ()=>{
+  certDisplay.textContent = certInput.value || '[ Nama Kamu ]';
+  localStorage.setItem('mc_name', certInput.value);
 });
-if (localStorage.getItem('mc_name')) {
-  certName.value = localStorage.getItem('mc_name');
-  certNameDisplay.textContent = certName.value;
+if(localStorage.getItem('mc_name')){
+  certInput.value = localStorage.getItem('mc_name');
+  certDisplay.textContent = certInput.value;
 }
-document.getElementById('downloadCert').addEventListener('click', () => {
-  soundClick();
+document.getElementById('downloadCert').addEventListener('click', ()=>{
+  sClick();
   const q1 = document.getElementById('quiz-app-1')._score || 0;
   const q2 = document.getElementById('quiz-app-2')._score || 0;
-  const name = certName.value || 'Siswa';
-  const text = `🎓 SERTIFIKAT PENYELESAIAN\n\nMaster Class Interaktif Akuntansi\nPersediaan, Ekuitas & Pendapatan\n\nNama: ${name}\nSkor Bab 1: ${q1}/15\nSkor Bab 2: ${q2}/15\nTotal: ${q1+q2}/30\nTanggal: ${new Date().toLocaleDateString('id-ID')}\n\n🏆 Terima kasih telah menyelesaikan modul ini!`;
+  const name = certInput.value || 'Siswa';
+  const text = `🎓 SERTIFIKAT PENYELESAIAN\n\nMaster Class Interaktif Akuntansi\nPersediaan, Ekuitas & Pendapatan\n\nNama: ${name}\nSkor Bab 1: ${q1}/15\nSkor Bab 2: ${q2}/15\nTotal: ${q1+q2}/30\nLevel: ${XP.level} (${XP.current} XP)\nTanggal: ${new Date().toLocaleDateString('id-ID')}\n\nDibuat oleh Firhan Fahamzha\nhttps://www.linkedin.com/in/firhan-fahamzha/\n\n🏆 Terima kasih telah menyelesaikan modul ini!`;
   const blob = new Blob([text], {type:'text/plain'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url; a.download = `Sertifikat-${name.replace(/\s/g,'_')}.txt`;
-  a.click();
-  URL.revokeObjectURL(url);
-  triggerConfetti();
-  soundPerfect();
+  a.click(); URL.revokeObjectURL(url);
+  triggerConfetti(); sPerfect();
+  unlockBadge('certified');
+  addXP(50);
 });
 
-/* ================= 21. INIT ================= */
-document.getElementById('year').textContent = new Date().getFullYear();
-
-// Restore progress
-(function restore() {
-  try {
-    const p = JSON.parse(localStorage.getItem('mc_progress') || '{}');
-    // Note: quiz _score/_answered are set during buildQuiz; restore visual only
-  } catch(e){}
-})();
-
-// Build quizzes
-buildQuiz('quiz-app-1', quizData1);
-buildQuiz('quiz-app-2', quizData2);
-updateOverallProgress();
-updateCertificate();
-
-// AOS
-if (window.AOS) {
-  AOS.init({ duration: 800, once: true, offset: 60 });
-  // fallback
-  setTimeout(() => {
-    document.querySelectorAll('[data-aos]').forEach(el => el.classList.add('aos-animate'));
-  }, 3000);
+/* ========== STAT COUNTERS ========== */
+function animateCounters(){
+  document.querySelectorAll('.stat-num').forEach(el=>{
+    const target = +el.dataset.count;
+    let n = 0;
+    const step = Math.max(1, Math.ceil(target/40));
+    const int = setInterval(()=>{
+      n += step;
+      if(n >= target){ n = target; clearInterval(int); }
+      el.textContent = n + '+';
+    }, 30);
+  });
 }
 
-// Stat counters after hero visible
-setTimeout(animateCounters, 700);
+/* ========== TYPING ========== */
+const phrases = [
+  'Kuasai Akuntansi Persediaan...',
+  'Pahami Ekuitas & Saham...',
+  'Hitung BPP dengan Simulator...',
+  'Kumpulkan XP & Raih Badge!',
+  'Dapatkan Sertifikatmu! 🎓'
+];
+let tpI=0, chI=0, del=false;
+const typingEl = document.getElementById('typingText');
+function typeLoop(){
+  const p = phrases[tpI];
+  if(!del){
+    typingEl.textContent = p.slice(0, ++chI);
+    if(chI === p.length){ del = true; setTimeout(typeLoop, 1400); return; }
+    setTimeout(typeLoop, 55);
+  } else {
+    typingEl.textContent = p.slice(0, --chI);
+    if(chI === 0){ del = false; tpI = (tpI+1)%phrases.length; setTimeout(typeLoop, 280); return; }
+    setTimeout(typeLoop, 25);
+  }
+}
+typeLoop();
 
-// Unlock audio on first user gesture
-['click','keydown','touchstart'].forEach(evt => {
-  document.addEventListener(evt, () => { if (!audioCtx) initAudio(); }, {once:true});
+/* ========== INIT ========== */
+document.getElementById('year').textContent = new Date().getFullYear();
+buildQuiz('quiz-app-1', quizData1);
+buildQuiz('quiz-app-2', quizData2);
+updateProgress();
+updateCert();
+if(window.AOS){ AOS.init({ duration:800, once:true, offset:60 }); }
+setTimeout(animateCounters, 800);
+
+['click','keydown','touchstart'].forEach(evt=>{
+  document.addEventListener(evt, ()=>{ if(!ac) initAudio(); }, {once:true});
 });
-
 console.log('%c🏆 Master Class Interaktif Akuntansi loaded!','color:#10b981;font-weight:bold;font-size:14px');
 </script>
 </body>
